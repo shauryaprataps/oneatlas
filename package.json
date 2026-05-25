@@ -2,13 +2,15 @@
   "name": "oneatlas-platform",
   "version": "0.1.0",
   "private": true,
+
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "tsc --noEmit",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
+
   "dependencies": {
     "@prisma/client": "^6.8.2",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -24,6 +26,7 @@
     "tailwind-merge": "^3.3.0",
     "zustand": "^5.0.5"
   },
+
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^22.15.21",
