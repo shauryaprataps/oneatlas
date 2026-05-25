@@ -65,10 +65,7 @@ export default function HomePage() {
 
               <div className="mt-8 border-t border-slate-200 pt-5">
 
-                <p className="text-sm text-slate-500">
-                  Templates are matched deterministically and persisted
-                  as editable runtime schemas.
-                </p>
+               
 
               </div>
 
