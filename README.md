@@ -1,6 +1,5 @@
 # OneAtlas Platform
 
-AI-native runtime app platform built from the provided `ONEATLAS_TRIAL_TASK.docx` brief.
 
 ## Local Setup
 
