@@ -22,7 +22,7 @@ export default function HomePage() {
       >
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2 md:items-start">
 
-          {/* LEFT SIDE */}
+          {/* LEFT */}
           <div>
 
             <h2 className="text-5xl font-semibold text-slate-900">
@@ -36,41 +36,39 @@ export default function HomePage() {
             </p>
 
 
-            {/* Features */}
-            <div className="mt-10 space-y-4">
+            {/* Example prompt card */}
+            <div className="mt-12 max-w-md rounded-3xl border border-slate-200 bg-white/70 p-8 shadow-sm backdrop-blur">
 
-
-              <p className="text-base text-slate-700">
-                ✓ Persistent runtime schemas
+              <p className="mb-6 text-lg font-semibold text-slate-900">
+                Try prompts
               </p>
 
-              <p className="text-base text-slate-700">
-                ✓ Conversational editing
-              </p>
 
-            </div>
+              <div className="space-y-4">
 
-
-            {/* Example prompts */}
-            <div className="mt-10">
-
-              <p className="mb-4 text-base font-semibold text-slate-900">
-                Try:
-              </p>
-
-              <div className="flex flex-col gap-3">
-
-                <span className="text-slate-500">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-700 transition hover:border-[#635BFF] hover:bg-white">
                   "Build CRM dashboard"
-                </span>
+                </div>
 
-                <span className="text-slate-500">
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-700 transition hover:border-[#635BFF] hover:bg-white">
                   "Create inventory tracker"
-                </span>
+                </div>
 
-                <span className="text-slate-500">
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-700 transition hover:border-[#635BFF] hover:bg-white">
                   "Generate HR workspace"
-                </span>
+                </div>
+
+              </div>
+
+
+              <div className="mt-8 border-t border-slate-200 pt-5">
+
+                <p className="text-sm text-slate-500">
+                  Templates are matched deterministically and persisted
+                  as editable runtime schemas.
+                </p>
 
               </div>
 
@@ -79,7 +77,7 @@ export default function HomePage() {
           </div>
 
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT */}
           <GenerateAppForm />
 
         </div>
