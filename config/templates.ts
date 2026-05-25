@@ -16,6 +16,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "4" },
       { label: "Automations", value: "3" },
     ],
+    runtime: { status: "Versioned", schemaVersion: 12, components: 4, fields: 9, mutationSafe: true },
     schemaId: "crm-runtime",
   },
   {
@@ -33,6 +34,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "3" },
       { label: "Automations", value: "2" },
     ],
+    runtime: { status: "Ready", schemaVersion: 5, components: 4, fields: 8, mutationSafe: true },
     schemaId: "hr-runtime",
   },
   {
@@ -50,6 +52,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "6" },
       { label: "Automations", value: "4" },
     ],
+    runtime: { status: "Governed", schemaVersion: 10, components: 5, fields: 12, mutationSafe: true },
     schemaId: "admin-runtime",
   },
   {
@@ -67,6 +70,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "5" },
       { label: "Automations", value: "5" },
     ],
+    runtime: { status: "Versioned", schemaVersion: 8, components: 4, fields: 10, mutationSafe: true },
     schemaId: "analytics-runtime",
   },
   {
@@ -84,6 +88,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "4" },
       { label: "Automations", value: "4" },
     ],
+    runtime: { status: "Ready", schemaVersion: 7, components: 4, fields: 11, mutationSafe: true },
     schemaId: "inventory-runtime",
   },
   {
@@ -101,6 +106,7 @@ export const templates: TemplateDefinition[] = [
       { label: "Views", value: "4" },
       { label: "Automations", value: "3" },
     ],
+    runtime: { status: "Ready", schemaVersion: 6, components: 4, fields: 8, mutationSafe: true },
     schemaId: "support-runtime",
   },
 ];

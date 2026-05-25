@@ -5,6 +5,14 @@ export interface TemplateMetric {
   value: string;
 }
 
+export interface TemplateRuntimeMeta {
+  status: "Ready" | "Versioned" | "Governed";
+  schemaVersion: number;
+  components: number;
+  fields: number;
+  mutationSafe: boolean;
+}
+
 export interface TemplateDefinition {
   id: string;
   slug: string;
@@ -16,6 +24,7 @@ export interface TemplateDefinition {
   preview: string;
   tags: string[];
   metrics: TemplateMetric[];
+  runtime: TemplateRuntimeMeta;
   schemaId: string;
 }
 

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Eye, WandSparkles } from "lucide-react";
+import type { ReactNode } from "react";
+import { Blocks, CircleDot, Database, Eye, GitBranch, ShieldCheck, WandSparkles } from "lucide-react";
 import type { TemplateDefinition } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,23 +24,46 @@ const complexityTone: Record<TemplateDefinition["complexity"], "mint" | "gold" |
 
 export function TemplateCard({ template, compact = false, className, onPreview }: TemplateCardProps) {
   return (
-    <Card className={cn("flex h-full flex-col", className)}>
+    <Card className={cn("flex h-full flex-col overflow-hidden bg-card-strong p-0", className)}>
+      <div className="border-b border-border bg-navy px-5 py-4 text-white">
+        <div className="flex items-center justify-between gap-3 text-xs">
+          <span className="flex items-center gap-2 text-white/75">
+            <CircleDot className="size-3 text-accent-mint" />
+            {template.runtime.status}
+          </span>
+          <span className="rounded-md bg-white/10 px-2 py-1">schema v{template.runtime.schemaVersion}</span>
+        </div>
+        <h3 className="mt-4 text-xl font-semibold">{template.name}</h3>
+        <p className="mt-2 text-xs text-white/68">{template.schemaId}</p>
+      </div>
+      <div className="flex flex-1 flex-col p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <Badge tone="primary">{template.category}</Badge>
-          <h3 className="mt-4 text-xl font-semibold">{template.name}</h3>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">{template.description}</p>
         </div>
         <Badge tone={complexityTone[template.complexity]}>{template.complexity}</Badge>
       </div>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">{template.description}</p>
-      {!compact ? <p className="mt-3 rounded-md bg-muted p-3 text-xs text-muted-foreground">{template.preview}</p> : null}
+      {!compact ? (
+        <div className="mt-4 rounded-md border border-border bg-muted/70 p-3">
+          <p className="flex items-center gap-2 text-xs font-medium text-foreground">
+            <Database className="size-3 text-primary" />
+            Runtime schema preview
+          </p>
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">{template.preview}</p>
+        </div>
+      ) : null}
       <div className="mt-5 grid grid-cols-3 gap-2">
-        {template.metrics.map((metric) => (
-          <div className="rounded-md border border-border p-2" key={metric.label}>
-            <span className="block text-sm font-semibold">{metric.value}</span>
-            <span className="text-xs text-muted-foreground">{metric.label}</span>
-          </div>
-        ))}
+        <Metric icon={<Blocks className="size-3" />} label="Components" value={String(template.runtime.components)} />
+        <Metric icon={<Database className="size-3" />} label="Fields" value={String(template.runtime.fields)} />
+        <Metric icon={<GitBranch className="size-3" />} label="Objects" value={template.metrics[0]?.value ?? "0"} />
+      </div>
+      <div className="mt-3 flex items-center justify-between rounded-md border border-border px-3 py-2 text-xs">
+        <span className="flex items-center gap-2 text-muted-foreground">
+          <ShieldCheck className="size-3 text-accent-mint" />
+          Mutation-safe
+        </span>
+        <span className="font-medium text-navy dark:text-accent-cyan">{template.collection}</span>
       </div>
       <div className="mt-auto flex gap-2 pt-5">
         <Button asChild className="flex-1" size="sm">
@@ -49,6 +73,16 @@ export function TemplateCard({ template, compact = false, className, onPreview }
           <Eye className="size-4" />Preview
         </Button>
       </div>
+      </div>
     </Card>
+  );
+}
+
+function Metric({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+  return (
+    <div className="rounded-md border border-border bg-background p-2">
+      <span className="flex items-center gap-1 text-sm font-semibold text-navy dark:text-foreground">{icon}{value}</span>
+      <span className="text-[0.68rem] text-muted-foreground">{label}</span>
+    </div>
   );
 }

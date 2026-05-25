@@ -22,8 +22,13 @@ export function TemplateDetailModal({ template, onOpenChange }: TemplateDetailMo
             {template.description}
           </DialogDescription>
           <div className="mt-5 rounded-lg border border-border bg-muted p-4">
-            <p className="text-sm font-medium">Generated preview</p>
+            <p className="text-sm font-medium">Runtime schema preview</p>
             <p className="mt-2 text-sm text-muted-foreground">{template.preview}</p>
+            <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
+              <span className="rounded-md bg-background p-2">v{template.runtime.schemaVersion}</span>
+              <span className="rounded-md bg-background p-2">{template.runtime.components} components</span>
+              <span className="rounded-md bg-background p-2">{template.runtime.fields} fields</span>
+            </div>
           </div>
           <div className="mt-5 flex flex-wrap gap-2">
             <Badge tone="gold">{template.complexity}</Badge>

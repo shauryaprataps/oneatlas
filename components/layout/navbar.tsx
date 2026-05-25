@@ -19,22 +19,22 @@ export function Navbar() {
         <Logo />
         <div className="hidden items-center gap-1 lg:flex">
           {primaryNavigation.map((item) => (
-            <Link className="rounded-md px-3 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" href={item.href} key={item.label}>
+            <Link className="rounded-md px-3 py-2 text-sm text-navy/70 transition hover:bg-white/55 hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white" href={item.href} key={item.label}>
               {item.label}
             </Link>
           ))}
           {dropdownGroups.map((group) => (
             <DropdownMenu.Root key={group.label}>
-              <DropdownMenu.Trigger className="rounded-md px-3 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <DropdownMenu.Trigger className="rounded-md px-3 py-2 text-sm text-navy/70 transition hover:bg-white/55 hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white">
                 {group.label}
               </DropdownMenu.Trigger>
-              <DropdownMenu.Content align="center" className="z-50 mt-3 grid w-[34rem] grid-cols-2 gap-2 rounded-lg border border-border bg-card-strong p-3 shadow-[var(--shadow-soft)]">
+              <DropdownMenu.Content align="center" className="z-50 mt-3 grid w-[34rem] grid-cols-2 gap-2 rounded-lg border border-white/40 bg-white/82 p-3 shadow-[var(--shadow-soft)] backdrop-blur-xl dark:border-white/10 dark:bg-navy/90">
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   return (
                     <DropdownMenu.Item asChild key={item.label}>
-                      <Link className="flex gap-3 rounded-md p-3 outline-none transition hover:bg-muted focus:bg-muted" href={item.href}>
-                        {Icon ? <Icon className="mt-0.5 size-4 text-primary" /> : null}
+                      <Link className="flex gap-3 rounded-md p-3 outline-none transition hover:bg-primary/8 focus:bg-primary/8" href={item.href}>
+                        {Icon ? <Icon className="mt-0.5 size-4 text-accent-cyan" /> : null}
                         <span>
                           <span className="block text-sm font-medium">{item.label}</span>
                           {item.description ? <span className="mt-1 block text-xs text-muted-foreground">{item.description}</span> : null}
@@ -56,7 +56,7 @@ export function Navbar() {
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </Button>
       </nav>
-      <div className={cn("mx-auto mt-2 hidden max-w-7xl rounded-lg border border-border bg-card-strong p-3 shadow-[var(--shadow-soft)] lg:hidden", open && "block")}>
+      <div className={cn("glass mx-auto mt-2 hidden max-w-7xl rounded-lg p-3 lg:hidden", open && "block")}>
         {[...primaryNavigation, ...dropdownGroups.flatMap((group) => group.items)].map((item) => (
           <Link className="block rounded-md px-3 py-2 text-sm hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" href={item.href} key={`${item.label}-${item.href}`} onClick={() => setOpen(false)}>
             {item.label}

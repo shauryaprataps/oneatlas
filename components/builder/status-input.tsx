@@ -8,7 +8,7 @@ export function StatusAndInput() {
   const { schema, prompt, setPrompt, mockSubmitPrompt } = useBuilderStore();
   return (
     <footer className="border-t border-border bg-card-strong">
-      <div className="flex flex-wrap items-center gap-3 px-3 py-2 text-xs text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-3 border-b border-border bg-navy px-3 py-2 text-xs text-white/70">
         <span>Last modified: {schema.lastModified}</span>
         <span>Schema version: v{schema.version}</span>
         <span className="flex items-center gap-2"><span className="size-2 rounded-full bg-accent-mint" />{schema.connection}</span>
