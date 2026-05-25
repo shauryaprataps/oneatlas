@@ -18,6 +18,12 @@
   --accent-mint: #00D4B1;
   --accent-cyan: #00D4FF;
   --accent-gold: #F8BC42;
+  --success: #00D4B1;
+  --warning: #FFB17A;
+  --runtime: #635BFF;
+  --advanced: #FF5996;
+  --live: #00D4FF;
+  --critical: #F8BC42;
   --shadow-soft: 0 16px 45px rgba(10, 37, 64, 0.12);
 }
 
@@ -51,6 +57,12 @@
   --color-accent-mint: var(--accent-mint);
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-gold: var(--accent-gold);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-runtime: var(--runtime);
+  --color-advanced: var(--advanced);
+  --color-live: var(--live);
+  --color-critical: var(--critical);
 }
 
 * {
@@ -84,14 +96,14 @@ textarea {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.64);
-  border: 1px solid rgba(255, 255, 255, 0.58);
+  background: rgba(10, 37, 64, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 18px 50px rgba(10, 37, 64, 0.14);
   backdrop-filter: blur(22px) saturate(145%);
   -webkit-backdrop-filter: blur(22px) saturate(145%);
 }
 
 .dark .glass {
-  background: rgba(10, 37, 64, 0.72);
+  background: rgba(10, 37, 64, 0.8);
   border-color: rgba(255, 255, 255, 0.13);
 }

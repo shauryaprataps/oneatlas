@@ -36,7 +36,7 @@ export function TemplateDetailModal({ template, onOpenChange }: TemplateDetailMo
             {template.tags.map((tag) => <Badge key={tag}>#{tag}</Badge>)}
           </div>
           <Button asChild className="mt-6">
-            <Link href={`/builder?template=${template.slug}`}>Use Template</Link>
+            <Link href={`/builder/${template.runtime.runtimeId}`}>Use Template</Link>
           </Button>
         </DialogContent>
       ) : null}

@@ -1,5 +1,37 @@
 import type { RuntimeSchema } from "@/types";
 
+const history = [
+  { time: "09:22", title: "Added live metric", detail: "Inserted operational KPI above primary table.", tone: "live" },
+  { time: "09:18", title: "Renamed module", detail: "Updated queue terminology for team workflow.", tone: "runtime" },
+  { time: "09:14", title: "Reordered canvas", detail: "Moved chart above table for faster scanning.", tone: "warning" },
+] satisfies RuntimeSchema["history"];
+
+const previews = (runtimeId: string): RuntimeSchema["previews"] => [
+  { id: `${runtimeId}_pv1`, url: `oneatlas.dev/preview/${runtimeId}-frozen-a`, created: "Today 09:24", expires: "7 days", frozen: true },
+  { id: `${runtimeId}_pv2`, url: `oneatlas.dev/preview/${runtimeId}-frozen-b`, created: "Yesterday 17:40", expires: "6 days", frozen: true },
+];
+
+function metadata(
+  runtimeId: string,
+  templateName: string,
+  complexity: string,
+  lastMutation: string,
+  environment = "Production Preview",
+): RuntimeSchema["metadata"] {
+  return {
+    runtimeId,
+    templateName,
+    complexity,
+    lastMutation,
+    created: "May 25, 2026",
+    lastEdited: "modified 2m ago",
+    environment,
+    mutationCount: 18,
+    previewCount: 2,
+    status: "connected",
+  };
+}
+
 const crm: RuntimeSchema = {
   id: "crm-runtime",
   templateId: "tpl_crm",
@@ -7,6 +39,11 @@ const crm: RuntimeSchema = {
   version: 12,
   lastModified: "2 minutes ago",
   connection: "connected",
+  metadata: metadata("app_rev_x92", "CRM Workspace", "Moderate", "Added pipeline risk metric"),
+  history,
+  recentInstructions: history.slice(0, 2),
+  previews: previews("app_rev_x92"),
+  diff: ["+ Pipeline Health metric", "~ Accounts Table owner filter", "+ Deal Activity Feed"],
   components: [
     {
       id: "page-crm",
@@ -41,7 +78,16 @@ const hr: RuntimeSchema = {
   appName: "People Operations Hub",
   version: 5,
   lastModified: "9 minutes ago",
-  connection: "connected",
+  connection: "syncing",
+  metadata: metadata("app_hr_k41", "HR Dashboard", "Simple", "Added onboarding workflow"),
+  history: [
+    { time: "11:06", title: "Added onboarding workflow", detail: "Created seven-step employee start flow.", tone: "success" },
+    { time: "10:51", title: "Renamed candidates", detail: "Updated hiring table terminology.", tone: "runtime" },
+    { time: "10:33", title: "Moved hiring funnel", detail: "Promoted funnel chart above directory.", tone: "warning" },
+  ],
+  recentInstructions: [{ time: "11:06", title: "Add workflow", detail: "Add onboarding workflow to the HR app.", tone: "success" }],
+  previews: previews("app_hr_k41"),
+  diff: ["+ Onboarding Workflow", "~ Employee Directory status field", "+ Headcount metric"],
   components: [
     {
       id: "page-hr",
@@ -76,7 +122,16 @@ const admin: RuntimeSchema = {
   appName: "Admin Control Plane",
   version: 10,
   lastModified: "4 minutes ago",
-  connection: "connected",
+  connection: "rollback_active",
+  metadata: metadata("app_adm_p77", "Admin Panel", "Advanced", "Rolled back permission scope"),
+  history: [
+    { time: "14:22", title: "Rollback active", detail: "Restoring permission matrix snapshot.", tone: "critical" },
+    { time: "14:10", title: "Added audit stream", detail: "Attached high-priority audit feed.", tone: "advanced" },
+    { time: "13:58", title: "Updated role matrix", detail: "Added risk status column.", tone: "warning" },
+  ],
+  recentInstructions: [{ time: "14:22", title: "Rollback", detail: "Restore role matrix to previous version.", tone: "critical" }],
+  previews: previews("app_adm_p77"),
+  diff: ["~ Role Matrix scope", "+ Audit Stream", "- Deprecated permission flag"],
   components: [
     {
       id: "page-admin",
@@ -111,7 +166,12 @@ const analytics: RuntimeSchema = {
   appName: "Analytics Workspace",
   version: 8,
   lastModified: "6 minutes ago",
-  connection: "connected",
+  connection: "mutation_running",
+  metadata: metadata("app_anl_m28", "Analytics Dashboard", "Advanced", "Added cohort trend chart"),
+  history,
+  recentInstructions: [{ time: "09:22", title: "Add KPI", detail: "Add retention KPI to analytics surface.", tone: "live" }],
+  previews: previews("app_anl_m28"),
+  diff: ["+ Cohort Trend chart", "+ Retention metric", "~ Segment Table risk field"],
   components: [
     {
       id: "page-analytics",
@@ -144,7 +204,16 @@ const inventory: RuntimeSchema = {
   appName: "Inventory Operations System",
   version: 7,
   lastModified: "12 minutes ago",
-  connection: "connected",
+  connection: "preview_frozen",
+  metadata: metadata("app_inv_s63", "Inventory System", "Moderate", "Frozen vendor reorder preview"),
+  history: [
+    { time: "16:42", title: "Preview frozen", detail: "Created snapshot for warehouse review.", tone: "live" },
+    { time: "16:31", title: "Added suppliers", detail: "Attached vendor reorder workflow.", tone: "warning" },
+    { time: "16:12", title: "Added stock filter", detail: "Filtered table by warehouse and reorder status.", tone: "success" },
+  ],
+  recentInstructions: [{ time: "16:42", title: "Create preview", detail: "Freeze current inventory schema.", tone: "live" }],
+  previews: previews("app_inv_s63"),
+  diff: ["+ Vendor Reorder Workflow", "+ Warehouse filter", "~ Stock Movement chart"],
   components: [
     {
       id: "page-inventory",
@@ -180,6 +249,15 @@ const support: RuntimeSchema = {
   version: 6,
   lastModified: "5 minutes ago",
   connection: "connected",
+  metadata: metadata("app_sup_q19", "Support Workspace", "Simple", "Added escalation feed"),
+  history: [
+    { time: "09:22", title: "Added SLA metric", detail: "Inserted SLA health at top of queue.", tone: "success" },
+    { time: "09:18", title: "Renamed Queue", detail: "Queue became Priority Queue.", tone: "runtime" },
+    { time: "09:14", title: "Moved chart", detail: "Moved response trend above ticket table.", tone: "warning" },
+  ],
+  recentInstructions: [{ time: "09:22", title: "Add metric", detail: "Add SLA metric above ticket queue.", tone: "success" }],
+  previews: previews("app_sup_q19"),
+  diff: ["+ SLA Health metric", "+ Escalation Feed", "~ Ticket Queue SLA field"],
   components: [
     {
       id: "page-support",
@@ -212,4 +290,8 @@ export const runtimeSchemas: RuntimeSchema[] = [crm, hr, admin, analytics, inven
 
 export function getRuntimeSchema(schemaId?: string) {
   return runtimeSchemas.find((schema) => schema.id === schemaId) ?? crm;
+}
+
+export function getRuntimeById(runtimeId?: string) {
+  return runtimeSchemas.find((schema) => schema.metadata.runtimeId === runtimeId) ?? crm;
 }

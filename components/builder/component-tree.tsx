@@ -20,7 +20,7 @@ function TreeNode({ node, selectedId, selectComponent }: { node: BuilderComponen
   return (
     <div>
       <button
-        className={cn("flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary", selectedId === node.id && "bg-navy text-white")}
+        className={cn("flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-live", selectedId === node.id && "bg-white/14 text-white")}
         onClick={() => selectComponent(node.id)}
         type="button"
       >

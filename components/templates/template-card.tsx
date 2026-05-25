@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Blocks, CircleDot, Database, Eye, GitBranch, ShieldCheck, WandSparkles } from "lucide-react";
+import { BarChart3, Blocks, BriefcaseBusiness, CircleDot, Database, Eye, GitBranch, Headphones, PackageSearch, ShieldCheck, UserRoundCog, UsersRound, WandSparkles } from "lucide-react";
 import type { TemplateDefinition } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,18 +22,28 @@ const complexityTone: Record<TemplateDefinition["complexity"], "mint" | "gold" |
   Advanced: "pink",
 };
 
+const templateIcons = {
+  "crm-workspace": BriefcaseBusiness,
+  "hr-dashboard": UsersRound,
+  "admin-panel": UserRoundCog,
+  "analytics-dashboard": BarChart3,
+  "inventory-system": PackageSearch,
+  "support-workspace": Headphones,
+};
+
 export function TemplateCard({ template, compact = false, className, onPreview }: TemplateCardProps) {
+  const Icon = templateIcons[template.slug as keyof typeof templateIcons] ?? Blocks;
   return (
     <Card className={cn("flex h-full flex-col overflow-hidden bg-card-strong p-0", className)}>
       <div className="border-b border-border bg-navy px-5 py-4 text-white">
         <div className="flex items-center justify-between gap-3 text-xs">
           <span className="flex items-center gap-2 text-white/75">
-            <CircleDot className="size-3 text-accent-mint" />
+            <CircleDot className="size-3 text-success" />
             {template.runtime.status}
           </span>
           <span className="rounded-md bg-white/10 px-2 py-1">schema v{template.runtime.schemaVersion}</span>
         </div>
-        <h3 className="mt-4 text-xl font-semibold">{template.name}</h3>
+        <h3 className="mt-4 flex items-center gap-2 text-xl font-semibold"><Icon className="size-5 text-live" />{template.name}</h3>
         <p className="mt-2 text-xs text-white/68">{template.schemaId}</p>
       </div>
       <div className="flex flex-1 flex-col p-5">
@@ -60,17 +70,17 @@ export function TemplateCard({ template, compact = false, className, onPreview }
       </div>
       <div className="mt-3 flex items-center justify-between rounded-md border border-border px-3 py-2 text-xs">
         <span className="flex items-center gap-2 text-muted-foreground">
-          <ShieldCheck className="size-3 text-accent-mint" />
+          <ShieldCheck className="size-3 text-success" />
           Mutation-safe
         </span>
-        <span className="font-medium text-navy dark:text-accent-cyan">{template.collection}</span>
+        <span className="font-medium text-navy dark:text-live">{template.collection}</span>
       </div>
       <div className="mt-auto flex gap-2 pt-5">
         <Button asChild className="flex-1" size="sm">
-          <Link href={`/builder?template=${template.slug}`}><WandSparkles className="size-4" />Use Template</Link>
+          <Link href={`/builder/${template.runtime.runtimeId}`}><WandSparkles className="size-4" />Use Template</Link>
         </Button>
-        <Button className="flex-1" onClick={() => onPreview?.(template)} size="sm" type="button" variant="outline">
-          <Eye className="size-4" />Preview
+        <Button asChild className="flex-1" size="sm" variant="outline">
+          <Link href={`/preview/${template.runtime.runtimeId}`} onClick={() => onPreview?.(template)}><Eye className="size-4" />Preview</Link>
         </Button>
       </div>
       </div>

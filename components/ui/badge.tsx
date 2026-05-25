@@ -7,9 +7,9 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const tones: Record<NonNullable<BadgeProps["tone"]>, string> = {
   primary: "bg-primary/10 text-primary",
-  pink: "bg-accent-pink/10 text-accent-pink",
-  mint: "bg-accent-mint/10 text-emerald-700 dark:text-accent-mint",
-  gold: "bg-accent-gold/15 text-amber-700 dark:text-accent-gold",
+  pink: "bg-advanced/10 text-advanced",
+  mint: "bg-success/10 text-success",
+  gold: "bg-critical/15 text-critical",
   neutral: "bg-muted text-muted-foreground",
 };
 

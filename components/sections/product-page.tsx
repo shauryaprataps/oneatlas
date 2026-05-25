@@ -15,14 +15,14 @@ export function ProductPage({ content }: { content: ProductPageContent }) {
             <Badge tone="primary">{content.eyebrow}</Badge>
             <h1 className="mt-5 max-w-3xl text-4xl font-semibold md:text-6xl">{content.title}</h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{content.description}</p>
-            <Button asChild className="mt-8" size="lg"><Link href="/builder">Start Building <ArrowRight className="size-4" /></Link></Button>
+            <Button asChild className="mt-8" size="lg"><Link href="/templates">Start Building <ArrowRight className="size-4" /></Link></Button>
           </div>
           <Card>
             <p className="text-sm font-semibold">Runtime capabilities</p>
             <div className="mt-5 grid gap-4">
               {content.points.map((point) => (
                 <div className="flex gap-3 rounded-md border border-border bg-muted/50 p-3" key={point}>
-                  <CheckCircle2 className="size-5 text-accent-mint" />
+                  <CheckCircle2 className="size-5 text-success" />
                   <span className="text-sm">{point}</span>
                 </div>
               ))}

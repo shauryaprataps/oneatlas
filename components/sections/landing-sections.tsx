@@ -21,7 +21,7 @@ export function Hero() {
             OneAtlas turns reusable templates into runtime schemas for dashboards, workflows, and operational systems that evolve through targeted mutations.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg"><Link href="/builder">Start Building <ArrowRight className="size-4" /></Link></Button>
+            <Button asChild size="lg"><Link href="/templates">Start Building <ArrowRight className="size-4" /></Link></Button>
             <Button asChild size="lg" variant="outline"><Link href="/templates">Explore Templates</Link></Button>
           </div>
         </div>
@@ -116,7 +116,7 @@ export function RolesAndTrust() {
           <Lock className="size-5 text-primary" />
           <h3 className="mt-4 text-xl font-semibold">Enterprise and security posture</h3>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">Governance, auditability, schema versioning, and rollback shape the product from the first interaction.</p>
-          <div className="mt-5 grid gap-3">{["Template approvals", "Versioned runtime schemas", "Controlled preview links"].map((item) => <p className="flex gap-2 text-sm" key={item}><Check className="size-4 text-accent-mint" />{item}</p>)}</div>
+          <div className="mt-5 grid gap-3">{["Template approvals", "Versioned runtime schemas", "Controlled preview links"].map((item) => <p className="flex gap-2 text-sm" key={item}><Check className="size-4 text-success" />{item}</p>)}</div>
         </Card>
       </div>
     </section>

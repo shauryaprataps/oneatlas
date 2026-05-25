@@ -6,6 +6,7 @@ export interface TemplateMetric {
 }
 
 export interface TemplateRuntimeMeta {
+  runtimeId: string;
   status: "Ready" | "Versioned" | "Governed";
   schemaVersion: number;
   components: number;
