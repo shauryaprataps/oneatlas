@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  users     User[]
+  apps      App[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id             String       @id @default(cuid())
+  email          String       @unique
+  name           String?
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  createdAt      DateTime     @default(now())
+}
+
+model Template {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  category       String
+  complexity     String
+  schemaDefaults Json
+  createdAt      DateTime @default(now())
+  apps           App[]
+}
+
+model App {
+  id             String       @id @default(cuid())
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  template       Template     @relation(fields: [templateId], references: [id])
+  templateId     String
+  schemas        RuntimeSchema[]
+  createdAt      DateTime     @default(now())
+}
+
+model RuntimeSchema {
+  id        String          @id @default(cuid())
+  app       App             @relation(fields: [appId], references: [id])
+  appId     String
+  version   Int
+  schema    Json
+  versions  SchemaVersion[]
+  createdAt DateTime        @default(now())
+
+  @@unique([appId, version])
+}
+
+model SchemaVersion {
+  id              String        @id @default(cuid())
+  runtimeSchema   RuntimeSchema @relation(fields: [runtimeSchemaId], references: [id])
+  runtimeSchemaId String
+  version         Int
+  snapshot        Json
+  createdAt       DateTime      @default(now())
+}
