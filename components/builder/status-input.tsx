@@ -11,7 +11,7 @@ export function StatusAndInput() {
   const { schema, prompt, setPrompt, mockSubmitPrompt, applyInstruction } = useBuilderStore();
 
   return (
-    <footer className="border-t border-white/10 bg-[#0A2540]/80 text-white shadow-[var(--shadow-soft)] backdrop-blur-xl transition-all duration-200">
+    <footer className="border-t border-white/10 bg-navy/80 text-white shadow-[var(--shadow-glass)] backdrop-blur-xl transition-all duration-200">
       <div className="flex flex-wrap items-center gap-3 border-b border-white/10 px-3 py-2 text-xs text-white/70">
         <span>Last modified: {schema.lastModified}</span>
         <span>Runtime: {schema.metadata.runtimeId}</span>

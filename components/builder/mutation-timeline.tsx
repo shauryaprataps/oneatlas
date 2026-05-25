@@ -7,7 +7,7 @@ export function MutationTimeline() {
   const { history, diff } = useBuilderStore((state) => state.schema);
 
   return (
-    <section className="rounded-lg border border-white/10 bg-white/6 p-3">
+    <section className="rounded-lg border border-white/10 bg-ink/60 p-3">
       <h3 className="text-sm font-semibold">Mutation timeline</h3>
       <div className="mt-3 grid gap-3">
         {history.slice(0, 5).map((event) => (
@@ -23,7 +23,7 @@ export function MutationTimeline() {
           </div>
         ))}
       </div>
-      <div className="mt-4 rounded-md bg-[#1A1F36]/70 p-3">
+      <div className="mt-4 rounded-md bg-ink-subtle/70 p-3">
         <p className="text-xs font-medium text-white">Schema diff preview</p>
         <div className="mt-2 grid gap-1">
           {diff.map((item) => <span className="text-xs text-white/62" key={item}>{item}</span>)}

@@ -3,19 +3,19 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const toneClasses: Record<SemanticTone, string> = {
-  success: "bg-success/12 text-success ring-success/25",
-  warning: "bg-warning/14 text-warning ring-warning/25",
-  runtime: "bg-runtime/12 text-runtime ring-runtime/25",
-  advanced: "bg-advanced/12 text-advanced ring-advanced/25",
-  live: "bg-live/12 text-live ring-live/25",
-  critical: "bg-critical/14 text-critical ring-critical/25",
+  success: "bg-success-soft text-success ring-success-ring",
+  warning: "bg-warning-soft text-warning ring-warning-ring",
+  runtime: "bg-runtime-soft text-runtime ring-runtime/25",
+  advanced: "bg-advanced-soft text-advanced ring-advanced-ring",
+  live: "bg-live-soft text-live ring-live-ring",
+  critical: "bg-pending-soft text-pending ring-pending-ring",
 };
 
 const statusTone: Record<RuntimeStatus, SemanticTone> = {
   connected: "success",
   syncing: "live",
   mutation_running: "runtime",
-  rollback_active: "critical",
+  rollback_active: "advanced",
   preview_frozen: "live",
   offline: "warning",
 };
@@ -26,7 +26,7 @@ const dotClasses: Record<SemanticTone, string> = {
   runtime: "bg-runtime",
   advanced: "bg-advanced",
   live: "bg-live",
-  critical: "bg-critical",
+  critical: "bg-pending",
 };
 
 const labels: Record<RuntimeStatus, string> = {

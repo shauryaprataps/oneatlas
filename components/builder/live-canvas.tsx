@@ -24,7 +24,7 @@ export function LiveCanvas() {
   return (
     <section className="min-h-0 flex-1 overflow-auto bg-background p-4">
       <div className="mx-auto grid max-w-6xl gap-4">
-        <div className="rounded-lg border border-white/10 bg-[#0A2540]/88 p-5 text-white shadow-[var(--shadow-soft)]">
+        <div className="rounded-lg border border-white/10 bg-navy/88 p-5 text-white shadow-[var(--shadow-glass)]">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-sm text-white/65">{String(page.props.owner)} runtime · {layout} layout</p>
@@ -44,10 +44,15 @@ export function LiveCanvas() {
 
         <div className="grid gap-4 md:grid-cols-3">
           {children.filter((node) => node.type === "metric").map((node) => (
-            <Card className="border-l-4 border-l-success transition hover:-translate-y-0.5" key={node.id}>
+            <Card
+              key={node.id}
+              className="border-l-4 border-l-runtime bg-card transition hover:-translate-y-0.5"
+            >
               <p className="text-sm text-muted-foreground">{node.name}</p>
               <p className="mt-3 text-3xl font-semibold text-navy dark:text-foreground">{String(node.props.value)}</p>
-              <p className="mt-1 text-sm text-success">{String(node.props.delta)}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                <span className="font-medium text-runtime">Δ</span> {String(node.props.delta)}
+              </p>
             </Card>
           ))}
         </div>
@@ -55,27 +60,74 @@ export function LiveCanvas() {
         <div className="grid gap-4 lg:grid-cols-[1fr_1.4fr]">
           {children.filter((node) => node.type === "chart").map((node) => (
             <Card key={node.id}>
-              <BarChart3 className="size-5 text-live" />
+              <BarChart3 className="size-5 text-runtime" />
               <h2 className="mt-3 font-semibold">{node.name}</h2>
-              <div className="mt-4 flex h-44 items-end gap-2">{visual.bars.map((height, index) => <span className="flex-1 rounded-t-md bg-runtime/70" key={`${node.id}-${index}`} style={{ height: `${height}%` }} />)}</div>
+              <div className="mt-4 flex h-44 items-end gap-2">
+                {visual.bars.map((height, index) => (
+                  <span
+                    className="flex-1 rounded-t-md bg-runtime/70"
+                    key={`${node.id}-${index}`}
+                    style={{ height: `${height}%`, opacity: 0.8 - index * 0.06 }}
+                  />
+                ))}
+              </div>
             </Card>
           ))}
           {children.filter((node) => node.type === "table").map((node) => (
             <Card key={node.id}>
-              <Table2 className="size-5 text-critical" />
+              <Table2 className="size-5 text-runtime" />
               <h2 className="mt-3 font-semibold">{node.name}</h2>
               <div className="mt-4 overflow-hidden rounded-md border border-border">
-                {(node.fields ?? []).map((field) => <div className="grid grid-cols-[1fr_6rem_5rem] border-b border-border px-3 py-2 text-sm last:border-b-0" key={field.id}><span>{field.label}</span><span className="text-muted-foreground">{field.type}</span><ToneBadge tone={visual.tone}>live</ToneBadge></div>)}
+                {(node.fields ?? []).map((field) => (
+                  <div
+                    className="grid grid-cols-[1fr_6rem_5rem] border-b border-border px-3 py-2 text-sm last:border-b-0"
+                    key={field.id}
+                  >
+                    <span>{field.label}</span>
+                    <span className="text-muted-foreground">{field.type}</span>
+                    <ToneBadge tone={visual.tone}>live</ToneBadge>
+                  </div>
+                ))}
               </div>
             </Card>
           ))}
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          {children.filter((node) => node.type === "activity").map((node) => <Card key={node.id}><Activity className="size-5 text-runtime" /><h2 className="mt-3 font-semibold">{node.name}</h2><ActivityRows priority={String(node.props.priority)} /></Card>)}
-          {children.filter((node) => node.type === "workflow").map((node) => <Card className="border-l-4 border-l-warning" key={node.id}><Route className="size-5 text-warning" /><h2 className="mt-3 font-semibold">{node.name}</h2><WorkflowRows steps={Number(node.props.steps)} /></Card>)}
-          <Card><GitPullRequestArrow className="size-5 text-advanced" /><h2 className="mt-3 font-semibold">Approval lane</h2><ActivityRows priority="Moderate" /></Card>
-          <Card><ListChecks className="size-5 text-success" /><h2 className="mt-3 font-semibold">Operational queue</h2><WorkflowRows steps={4} /></Card>
+          {children
+            .filter((node) => node.type === "activity")
+            .map((node) => (
+              <Card key={node.id}>
+                <Activity className="size-5 text-runtime" />
+                <h2 className="mt-3 font-semibold">{node.name}</h2>
+                <ActivityRows priority={String(node.props.priority)} />
+              </Card>
+            ))}
+
+          {children
+            .filter((node) => node.type === "workflow")
+            .map((node) => (
+              <Card
+                className="border-l-4 border-l-runtime bg-card"
+                key={node.id}
+              >
+                <Route className="size-5 text-runtime" />
+                <h2 className="mt-3 font-semibold">{node.name}</h2>
+                <WorkflowRows steps={Number(node.props.steps)} />
+              </Card>
+            ))}
+
+          <Card className="bg-card">
+            <GitPullRequestArrow className="size-5 text-runtime" />
+            <h2 className="mt-3 font-semibold">Approval lane</h2>
+            <ActivityRows priority="Moderate" />
+          </Card>
+
+          <Card className="bg-card">
+            <ListChecks className="size-5 text-runtime" />
+            <h2 className="mt-3 font-semibold">Operational queue</h2>
+            <WorkflowRows steps={4} />
+          </Card>
         </div>
       </div>
     </section>
@@ -83,9 +135,35 @@ export function LiveCanvas() {
 }
 
 function ActivityRows({ priority }: { priority: string }) {
-  return <div className="mt-3 grid gap-2">{["Schema edited", "Preview generated", "Permission checked"].map((item) => <p className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground" key={item}>{item} · {priority}</p>)}</div>;
+  return (
+    <div className="mt-3 grid gap-2">
+      {[
+        "Schema edited",
+        "Preview generated",
+        "Permission checked",
+      ].map((item) => (
+        <p
+          className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground"
+          key={item}
+        >
+          {item} · <span className="text-runtime">{priority}</span>
+        </p>
+      ))}
+    </div>
+  );
 }
 
 function WorkflowRows({ steps }: { steps: number }) {
-  return <div className="mt-3 grid gap-2">{Array.from({ length: Math.min(steps, 5) }).map((_, index) => <p className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground" key={index}>Step {index + 1} · ready for mutation</p>)}</div>;
+  return (
+    <div className="mt-3 grid gap-2">
+      {Array.from({ length: Math.min(steps, 5) }).map((_, index) => (
+        <p
+          className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground"
+          key={index}
+        >
+          Step {index + 1} · ready for mutation
+        </p>
+      ))}
+    </div>
+  );
 }

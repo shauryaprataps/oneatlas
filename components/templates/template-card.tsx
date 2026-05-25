@@ -16,10 +16,19 @@ interface TemplateCardProps {
   onPreview?: (template: TemplateDefinition) => void;
 }
 
-const complexityTone: Record<TemplateDefinition["complexity"], "mint" | "gold" | "pink"> = {
-  Simple: "mint",
-  Moderate: "gold",
-  Advanced: "pink",
+const complexityTone: Record<TemplateDefinition["complexity"], "success" | "pending" | "advanced"> = {
+  Simple: "success",
+  Moderate: "pending",
+  Advanced: "advanced",
+};
+
+// Template-level tone (subtle, not a rainbow palette)
+const templateToneByCategory: Partial<Record<TemplateDefinition["category"], "success" | "live" | "pending" | "advanced" | "runtime">> = {
+  "crm-workspace": "success",
+  "support-workspace": "live",
+  "analytics-dashboard": "live",
+  "inventory-system": "pending",
+  "admin-panel": "advanced",
 };
 
 const templateIcons = {
@@ -38,7 +47,7 @@ export function TemplateCard({ template, compact = false, className, onPreview }
       <div className="border-b border-border bg-navy px-5 py-4 text-white">
         <div className="flex items-center justify-between gap-3 text-xs">
           <span className="flex items-center gap-2 text-white/75">
-            <CircleDot className="size-3 text-success" />
+            <CircleDot className="size-3 text-runtime" />
             {template.runtime.status}
           </span>
           <span className="rounded-md bg-white/10 px-2 py-1">schema v{template.runtime.schemaVersion}</span>
@@ -49,10 +58,17 @@ export function TemplateCard({ template, compact = false, className, onPreview }
       <div className="flex flex-1 flex-col p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <Badge tone="primary">{template.category}</Badge>
+          <Badge tone="runtime">{template.category}</Badge>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">{template.description}</p>
         </div>
-        <Badge tone={complexityTone[template.complexity]}>{template.complexity}</Badge>
+        <div className="flex items-center gap-2">
+          {/* Complexity communicates operational shape; keep it semantic and subtle */}
+          <Badge tone={complexityTone[template.complexity]}>{template.complexity}</Badge>
+          {/* Category tone is a small signal (icon accents stay restrained) */}
+          <Badge tone={templateToneByCategory[template.category] ?? "runtime"}>
+            {templateToneByCategory[template.category] ?? "runtime"}
+          </Badge>
+        </div>
       </div>
       {!compact ? (
         <div className="mt-4 rounded-md border border-border bg-muted/70 p-3">

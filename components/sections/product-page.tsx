@@ -12,7 +12,7 @@ export function ProductPage({ content }: { content: ProductPageContent }) {
       <section className="px-4 py-16 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-start">
           <div>
-            <Badge tone="primary">{content.eyebrow}</Badge>
+            <Badge tone="runtime">{content.eyebrow}</Badge>
             <h1 className="mt-5 max-w-3xl text-4xl font-semibold md:text-6xl">{content.title}</h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{content.description}</p>
             <Button asChild className="mt-8" size="lg"><Link href="/templates">Start Building <ArrowRight className="size-4" /></Link></Button>

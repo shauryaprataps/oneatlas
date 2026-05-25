@@ -8,12 +8,12 @@ import { useBuilderStore } from "@/store/builder-store";
 export function BuilderTopbar() {
   const { schema, setAppName, togglePanel, setCommandOpen } = useBuilderStore();
   return (
-    <header className="flex min-h-14 flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#0A2540]/80 px-3 py-2 text-white shadow-[var(--shadow-soft)] backdrop-blur-xl">
+    <header className="flex min-h-14 flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-navy/92 px-3 py-2 text-white shadow-[var(--shadow-glass)] backdrop-blur-2xl">
       <div className="flex items-center gap-2">
         <Button aria-label="Toggle component tree" onClick={() => togglePanel("left")} size="icon" variant="ghost"><PanelLeftClose className="size-4" /></Button>
         <input aria-label="App name" className="w-48 rounded-md border border-transparent bg-transparent px-2 py-1 font-semibold outline-none focus:border-white/20 focus:bg-white/10" onChange={(event) => setAppName(event.target.value)} value={schema.appName} />
-        <Badge className="bg-white/10 text-white" tone="primary">schema v{schema.version}</Badge>
-        <Badge className="hidden bg-live/10 text-live sm:inline-flex" tone="primary">{schema.metadata.runtimeId}</Badge>
+        <Badge className="bg-runtime-soft text-runtime" tone="runtime">schema v{schema.version}</Badge>
+        <Badge className="hidden bg-live-soft text-live sm:inline-flex" tone="live">{schema.metadata.runtimeId}</Badge>
         <span className="hidden text-xs text-white/55 lg:inline">{schema.metadata.templateName} · {schema.metadata.environment}</span>
       </div>
       <div className="flex items-center gap-2">

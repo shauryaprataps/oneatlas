@@ -13,7 +13,7 @@ export function Hero() {
     <section className="px-4 pb-14 pt-14 md:pt-20">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.82fr] lg:items-center">
         <div>
-          <Badge tone="mint">AI-native runtime app platform</Badge>
+          <Badge tone="success">AI-native runtime app platform</Badge>
           <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-normal text-foreground md:text-7xl">
             Build internal apps that stay editable after generation.
           </h1>
@@ -36,7 +36,7 @@ function RuntimePreview() {
     <div className="rounded-lg border border-border bg-card-strong p-3 shadow-[var(--shadow-soft)]">
       <div className="flex items-center justify-between border-b border-border pb-3">
         <span className="text-sm font-medium">Revenue Ops Runtime</span>
-        <Badge tone="primary">schema v12</Badge>
+        <Badge tone="runtime">schema v12</Badge>
       </div>
       <div className="mt-4 grid gap-3">
         {["Pipeline Health", "Account Risk", "Next Actions"].map((label, index) => (
@@ -128,7 +128,7 @@ export function PricingFaq() {
     <section className="px-4 py-16">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
         <Card>
-          <Badge tone="gold">Pricing Preview</Badge>
+          <Badge tone="pending">Pricing Preview</Badge>
           <h2 className="mt-4 text-3xl font-semibold">Start with builders. Scale to governed teams.</h2>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">Pricing is organized around runtime app creation, template usage, and enterprise controls.</p>
           <Button asChild className="mt-6"><Link href="/pricing">View Pricing</Link></Button>

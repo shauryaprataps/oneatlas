@@ -26,8 +26,8 @@ export function CommandPalette() {
   if (!commandOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#1A1F36]/50 p-4 backdrop-blur-sm" onClick={() => setCommandOpen(false)}>
-      <div className="mx-auto mt-20 max-w-xl rounded-lg border border-white/10 bg-[#0A2540]/90 p-3 text-white shadow-[var(--shadow-soft)]" onClick={(event) => event.stopPropagation()}>
+    <div className="fixed inset-0 z-50 bg-ink/50 p-4 backdrop-blur-sm" onClick={() => setCommandOpen(false)}>
+      <div className="mx-auto mt-20 max-w-xl rounded-lg border border-white/10 bg-navy/92 p-3 text-white shadow-[var(--shadow-glass)]" onClick={(event) => event.stopPropagation()}>
         <div className="flex items-center gap-2 border-b border-white/10 px-2 pb-3">
           <Search className="size-4 text-live" />
           <span className="text-sm text-white/60">Command palette</span>

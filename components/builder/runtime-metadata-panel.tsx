@@ -21,7 +21,7 @@ export function RuntimeMetadataPanel() {
   ];
 
   return (
-    <section className="rounded-lg border border-white/10 bg-white/6 p-3">
+    <section className="rounded-lg border border-white/10 bg-ink/60 p-3">
       <div className="flex items-center justify-between gap-2">
         <p className="flex items-center gap-2 text-sm font-semibold"><Database className="size-4 text-live" />Runtime metadata</p>
         <StatusBadge status={schema.connection} />
@@ -35,8 +35,8 @@ export function RuntimeMetadataPanel() {
         ))}
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-        <span className="rounded-md bg-live/10 p-2 text-live"><GitBranch className="mb-1 size-3" />versioned</span>
-        <span className="rounded-md bg-success/10 p-2 text-success"><Layers3 className="mb-1 size-3" />schema source</span>
+        <span className="rounded-md bg-live-soft p-2 text-live"><GitBranch className="mb-1 size-3" />versioned</span>
+        <span className="rounded-md bg-success-soft p-2 text-success"><Layers3 className="mb-1 size-3" />schema source</span>
       </div>
     </section>
   );

@@ -2,14 +2,17 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  tone?: "primary" | "pink" | "mint" | "gold" | "neutral";
+  tone?: "runtime" | "runtime-secondary" | "success" | "live" | "warning" | "pending" | "advanced" | "neutral";
 }
 
 const tones: Record<NonNullable<BadgeProps["tone"]>, string> = {
-  primary: "bg-primary/10 text-primary",
-  pink: "bg-advanced/10 text-advanced",
-  mint: "bg-success/10 text-success",
-  gold: "bg-critical/15 text-critical",
+  runtime: "bg-runtime-soft text-runtime",
+  "runtime-secondary": "bg-runtime-secondary-soft text-runtime-secondary",
+  success: "bg-success-soft text-success",
+  live: "bg-live-soft text-live",
+  warning: "bg-warning-soft text-warning",
+  pending: "bg-pending-soft text-pending",
+  advanced: "bg-advanced-soft text-advanced",
   neutral: "bg-muted text-muted-foreground",
 };
 

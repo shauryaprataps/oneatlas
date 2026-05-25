@@ -38,13 +38,13 @@ export function BuilderShell({ runtimeId }: BuilderShellProps) {
       <BuilderTopbar />
       <CommandPalette />
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[auto_1fr_auto]">
-        <aside className={cn("hidden w-72 overflow-auto border-r border-white/10 bg-[#0A2540]/80 p-3 text-white shadow-[var(--shadow-soft)] backdrop-blur-xl transition-all duration-200 lg:block", !panels.left && "lg:hidden")}>
+        <aside className={cn("hidden w-72 overflow-auto border-r border-white/10 bg-navy/80 p-3 text-white shadow-[var(--shadow-glass)] backdrop-blur-xl transition-all duration-200 lg:block", !panels.left && "lg:hidden")}>
           <RuntimeMetadataPanel />
           <h2 className="mb-3 mt-4 text-sm font-semibold text-white">Runtime component tree</h2>
           <ComponentTree />
         </aside>
         <LiveCanvas />
-        <aside className={cn("hidden w-80 overflow-auto border-l border-white/10 bg-[#0A2540]/80 p-4 text-white shadow-[var(--shadow-soft)] backdrop-blur-xl transition-all duration-200 xl:block", !panels.right && "xl:hidden")}>
+        <aside className={cn("hidden w-80 overflow-auto border-l border-white/10 bg-navy/80 p-4 text-white shadow-[var(--shadow-glass)] backdrop-blur-xl transition-all duration-200 xl:block", !panels.right && "xl:hidden")}>
           <PropertiesPanel />
           <div className="mt-4 grid gap-4">
             <MutationTimeline />
