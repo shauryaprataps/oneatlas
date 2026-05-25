@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import { Logo } from "./logo";
-import { ResumeRuntimeButton } from "./resume-runtime";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
@@ -241,7 +240,6 @@ export function Navbar() {
 
           <ThemeToggle />
 
-          <ResumeRuntimeButton />
 
 
           <Button

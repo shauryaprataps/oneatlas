@@ -10,18 +10,18 @@ datasource db {
 model Organization {
   id        String   @id @default(cuid())
   name      String
-  users     User[]
-  apps      App[]
   createdAt DateTime @default(now())
+  apps      App[]
+  users     User[]
 }
 
 model User {
   id             String       @id @default(cuid())
   email          String       @unique
   name           String?
-  organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
   createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
 model Template {
@@ -36,33 +36,57 @@ model Template {
 }
 
 model App {
-  id             String       @id @default(cuid())
+  id             String          @id @default(cuid())
   name           String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String
-  template       Template     @relation(fields: [templateId], references: [id])
+  organizationId String?
   templateId     String
+  createdAt      DateTime        @default(now())
+  organization   Organization?   @relation(fields: [organizationId], references: [id])
+  template       Template        @relation(fields: [templateId], references: [id])
+  mutations      Mutation[]
+  previews       Preview[]
   schemas        RuntimeSchema[]
-  createdAt      DateTime     @default(now())
 }
 
 model RuntimeSchema {
   id        String          @id @default(cuid())
-  app       App             @relation(fields: [appId], references: [id])
   appId     String
   version   Int
   schema    Json
-  versions  SchemaVersion[]
   createdAt DateTime        @default(now())
+  app       App             @relation(fields: [appId], references: [id])
+  versions  SchemaVersion[]
 
   @@unique([appId, version])
 }
 
 model SchemaVersion {
   id              String        @id @default(cuid())
-  runtimeSchema   RuntimeSchema @relation(fields: [runtimeSchemaId], references: [id])
   runtimeSchemaId String
   version         Int
   snapshot        Json
   createdAt       DateTime      @default(now())
+  runtimeSchema   RuntimeSchema @relation(fields: [runtimeSchemaId], references: [id])
+
+  @@unique([runtimeSchemaId, version])
+}
+
+model Mutation {
+  id            String   @id @default(cuid())
+  appId         String
+  instruction   String
+  summary       String?
+  schemaVersion Int?
+  createdAt     DateTime @default(now())
+  app           App      @relation(fields: [appId], references: [id])
+}
+
+model Preview {
+  id           String    @id @default(cuid())
+  appId        String
+  token        String    @unique
+  frozenSchema Json
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  app          App       @relation(fields: [appId], references: [id])
 }

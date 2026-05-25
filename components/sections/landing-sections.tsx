@@ -9,26 +9,7 @@ import { TemplateCard } from "@/components/templates/template-card";
 import { SectionHeading } from "./section-heading";
 
 export function Hero() {
-  return (
-    <section className="px-4 pb-14 pt-14 md:pt-20">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.82fr] lg:items-center">
-        <div>
-          <Badge tone="success">AI-native runtime app platform</Badge>
-          <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-normal text-foreground md:text-7xl">
-            Build internal apps that stay editable after generation.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-            OneAtlas turns reusable templates into runtime schemas for dashboards, workflows, and operational systems that evolve through targeted mutations.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg"><Link href="/templates">Start Building <ArrowRight className="size-4" /></Link></Button>
-            <Button asChild size="lg" variant="outline"><Link href="/templates">Explore Templates</Link></Button>
-          </div>
-        </div>
-        <RuntimePreview />
-      </div>
-    </section>
-  );
+  return null;
 }
 
 function RuntimePreview() {
