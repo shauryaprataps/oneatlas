@@ -1,492 +1,766 @@
 "use client";
 
 import {
-  Activity,
-  BarChart3,
-  Clock3,
-  Route,
+ Activity,
+ BarChart3,
+ Clock3,
+ Route,
 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { ToneBadge } from "@/components/ui/status-badge";
 import { useBuilderStore } from "@/store/builder-store";
 
-const identity = {
-  pipeline: {
-    terms: ["Revenue", "Accounts", "Pipeline"],
-    tone: "success" as const,
-    bars: [42, 72, 61, 84, 76, 92],
-  },
+const identity={
 
-  people: {
-    terms: ["Hiring", "Onboarding", "Headcount"],
-    tone: "warning" as const,
-    bars: [34, 58, 77, 66, 82, 70],
-  },
+ pipeline:{
+  terms:[
+   "Revenue",
+   "Accounts",
+   "Pipeline"
+  ],
 
-  executive: {
-    terms: ["Charts", "KPIs", "Segments"],
-    tone: "live" as const,
-    bars: [38, 64, 51, 78, 69, 88],
-  },
+  tone:"success" as const,
 
-  queue: {
-    terms: ["Tickets", "Escalations", "SLA"],
-    tone: "runtime" as const,
-    bars: [70, 48, 62, 90, 57, 73],
-  },
+  bars:[
+   42,
+   72,
+   61,
+   84,
+   76,
+   92
+  ]
+ },
+
+ people:{
+  terms:[
+   "Hiring",
+   "Onboarding",
+   "Headcount"
+  ],
+
+  tone:"warning" as const,
+
+  bars:[
+   34,
+   58,
+   77,
+   66,
+   82,
+   70
+  ]
+ },
+
+ executive:{
+  terms:[
+   "Charts",
+   "KPIs",
+   "Segments"
+  ],
+
+  tone:"live" as const,
+
+  bars:[
+   38,
+   64,
+   51,
+   78,
+   69,
+   88
+  ]
+ },
+
+ queue:{
+  terms:[
+   "Tickets",
+   "Escalations",
+   "SLA"
+  ],
+
+  tone:"runtime" as const,
+
+  bars:[
+   70,
+   48,
+   62,
+   90,
+   57,
+   73
+  ]
+ }
+
 };
 
-export function LiveCanvas() {
-  const schema =
-    useBuilderStore(
-      (s) => s.schema
-    );
 
-  const page =
-    schema.components[0];
 
-  const layout =
-    String(
-      page.props.layout
-    ) as keyof typeof identity;
+export function LiveCanvas(){
 
-  const visual =
-    identity[layout] ??
-    identity.pipeline;
+ const schema=
 
-  const children =
-    page.children ??
-    [];
+ useBuilderStore(
+ s=>s.schema
+ );
 
-  return (
-    <section className="flex-1 overflow-auto bg-background p-2">
+ const page=
+ schema.components[0];
 
-      <div className="mx-auto max-w-7xl space-y-3">
+ const layout=
 
-        {/* HERO */}
+ String(
 
-        <div className="rounded-xl border border-white/10 bg-navy/90 p-4 text-white shadow-[var(--shadow-glass)]">
+ page.props.layout
 
-          <div className="flex items-center justify-between">
+ ) as keyof typeof identity;
 
-            <div>
+ const visual=
 
-              <div className="text-xs uppercase tracking-wide text-white/45">
+ identity[layout]
 
-                {page.props.owner} · {layout}
+ ??
 
-              </div>
+ identity.pipeline;
 
-              <h1 className="mt-1 text-xl font-semibold">
 
-                {page.name}
+ const children=
 
-              </h1>
+ page.children
 
-            </div>
+ ??
 
-            <ToneBadge tone={visual.tone}>
+ [];
 
-              {schema.metadata.environment}
 
-            </ToneBadge>
+ return(
 
-          </div>
+ <section className="
+ bg-background
+ p-4
+ ">
 
-          <div className="mt-3 flex flex-wrap gap-2">
+ <div className="
+ mx-auto
+ max-w-7xl
+ space-y-4
+ ">
 
-            {visual.terms.map(
 
-              term => (
+ {/* HERO */}
 
-                <span
-                  key={term}
-                  className="rounded-md bg-white/5 px-2 py-1 text-xs"
-                >
+ <div className="
+ rounded-xl
 
-                  {term}
+ border
 
-                </span>
+ border-border
 
-              )
+ bg-white
 
-            )}
+ p-5
 
-          </div>
+ shadow-sm
+ ">
 
-        </div>
+ <div className="
+ flex
 
+ items-center
 
+ justify-between
+ ">
 
+ <div>
 
+ <div className="
+ text-xs
 
-        {/* METRICS */}
+ uppercase
 
-        <div className="grid gap-3 md:grid-cols-3">
+ tracking-wide
 
-          {
+ text-muted-foreground
+ ">
 
-            children
+ {
 
-              .filter(
+ page.props.owner
 
-                n =>
+ }
 
-                  n.type ===
-                  "metric"
+ ·
 
-              )
+ {
 
-              .map(
+ layout
 
-                (
+ }
 
-                  node,
+ </div>
 
-                  idx
 
-                ) => (
+ <h1 className="
+ mt-2
 
-                  <Card
+ text-2xl
 
-                    key={
-                      node.id
-                    }
+ font-semibold
 
-                    className="
-                    min-h-[150px]
+ text-foreground
+ ">
 
-                    border
+ {
 
-                    border-white/10
+ page.name
 
-                    bg-card
+ }
 
-                    p-4
+ </h1>
 
-                    transition-all
+ </div>
 
-                    hover:-translate-y-1
 
-                    hover:shadow-lg
 
-                    hover:shadow-runtime/10
-                    "
+ <ToneBadge
+ tone={visual.tone}
+ >
 
-                  >
+ {
 
-                    <div className="flex justify-between">
+ schema.metadata.environment
 
-                      <div>
+ }
 
-                        <div className="text-[10px] uppercase tracking-wide text-white/45">
+ </ToneBadge>
 
-                          {
+ </div>
 
-                            node.name
 
-                          }
 
-                        </div>
 
+ <div className="
+ mt-4
 
+ flex
 
-                        <div className="mt-2 text-4xl font-semibold">
+ flex-wrap
 
-                          {
+ gap-2
+ ">
 
-                            String(
+ {
 
-                              node.props.value
+ visual.terms.map(
 
-                            )
+ term=>(
 
-                          }
+ <span
 
-                        </div>
+ key={term}
 
-                      </div>
+ className="
+ rounded-md
 
+ bg-runtime/5
 
+ px-3
 
-                      <div className="h-fit rounded-md bg-success/10 px-2 py-1 text-xs text-success">
+ py-1
 
-                        ↑
+ text-xs
 
-                        {
+ text-runtime
+ "
 
-                          idx % 2 === 0
+ >
 
-                            ?
+ {term}
 
-                            "12%"
+ </span>
 
-                            :
+ )
 
-                            "4%"
+ )
 
-                        }
+ }
 
-                      </div>
+ </div>
 
-                    </div>
+ </div>
 
 
 
 
 
-                    {/* sparkline */}
 
-                    <div className="mt-4 flex h-10 items-end gap-1">
 
-                      {
+ {/* METRICS */}
 
-                        visual.bars.map(
+ <div className="
+ grid
 
-                          (
+ gap-4
 
-                            n,
+ md:grid-cols-3
+ ">
 
-                            i
+ {
 
-                          ) => (
+ children
 
-                            <div
+ .filter(
 
-                              key={i}
+ n=>
 
-                              className="flex-1 rounded-sm bg-runtime/80"
+ n.type===
 
-                              style={{
+ "metric"
 
-                                height:
+ )
 
-                                  `${
+ .map(
 
-                                  n / 2
+ (
 
-                                  }px`
+ node,
 
-                              }}
+ idx
 
-                            />
+ )=>(
 
-                          )
+ <Card
 
-                        )
+ key={
+ node.id
+ }
 
-                      }
+ className="
+ border-border
 
-                    </div>
+ hover:shadow-runtime/10
 
+ transition
+ "
 
+ >
 
-                    <div className="mt-4 flex justify-between text-[10px] uppercase text-white/45">
+ <div className="
+ flex
 
-                      <span>
+ justify-between
+ ">
 
-                        Updated 2m
+ <div>
 
-                      </span>
+ <div className="
+ text-[11px]
 
+ uppercase
 
+ text-muted-foreground
+ ">
 
-                      <span>
+ {
 
-                        v{
+ node.name
 
-                          schema.version
+ }
 
-                        }
+ </div>
 
-                      </span>
 
-                    </div>
 
-                  </Card>
+ <div className="
+ mt-2
 
-                )
+ text-4xl
 
-              )
+ font-semibold
+ ">
 
-          }
+ {
 
-        </div>
+ String(
+ node.props.value
+ )
 
+ }
 
+ </div>
 
+ </div>
 
 
 
-        <div className="grid gap-3 lg:grid-cols-[2fr_1fr]">
+ <div className="
+ rounded-md
 
-          {/* CHART */}
+ bg-success/10
 
-          <Card className="p-4">
+ px-2
 
-            <div className="flex justify-between">
+ py-1
 
-              <div>
+ text-xs
 
-                <BarChart3 className="size-5 text-runtime" />
+ text-success
+ ">
 
+ ↑
 
+ {
 
-                <h2 className="mt-2 font-semibold">
+ idx%2===0
 
-                  Runtime analytics
+ ?
 
-                </h2>
+ "12%"
 
-              </div>
+ :
 
+ "4%"
 
+ }
 
-              <div className="text-xs text-white/45">
+ </div>
 
-                LIVE
+ </div>
 
-              </div>
 
-            </div>
 
 
+ <div className="
+ mt-5
 
-            <div className="mt-4 flex h-40 items-end gap-2">
+ flex
 
-              {
+ h-10
 
-                visual.bars.map(
+ items-end
 
-                  (
+ gap-1
+ ">
 
-                    h,
+ {
 
-                    i
+ visual.bars.map(
 
-                  ) => (
+ (
 
-                    <div
+ n,
 
-                      key={i}
+ i
 
-                      className="
-                      flex-1
+ )=>(
 
-                      rounded-t-md
+ <div
 
-                      bg-runtime/80
+ key={i}
 
-                      transition
+ className="
+ flex-1
 
-                      hover:scale-y-105
+ rounded-sm
 
-                      hover:bg-runtime
-                      "
+ bg-runtime
+ "
 
-                      style={{
+ style={{
 
-                        height:
+ height:
 
-                          `${h}%`
+ `${n/2}px`
 
-                      }}
+ }}
 
-                    />
+ />
 
-                  )
+ )
 
-                )
+ )
 
-              }
+ }
 
-            </div>
+ </div>
 
-          </Card>
 
 
 
+ <div className="
+ mt-4
 
+ flex
 
-          {/* FEED */}
+ justify-between
 
-          <Card className="p-4">
+ text-xs
 
-            <div className="flex items-center gap-2">
+ text-muted-foreground
+ ">
 
-              <Activity className="size-4 text-runtime" />
+ <span>
 
+ Updated 2m
 
+ </span>
 
-              <h2 className="font-semibold">
+ <span>
 
-                Runtime feed
+ v{
 
-              </h2>
+ schema.version
 
-            </div>
+ }
 
+ </span>
 
+ </div>
 
-            <RuntimeFeed />
+ </Card>
 
-          </Card>
+ )
 
-        </div>
+ )
 
+ }
 
+ </div>
 
 
 
 
-        <div className="grid gap-3 lg:grid-cols-2">
 
-          <Card className="p-4">
 
-            <Route className="size-5 text-runtime" />
 
 
 
-            <h2 className="mt-2 font-semibold">
+ <div className="
+ grid
 
-              Workflow queue
+ gap-4
 
-            </h2>
+ lg:grid-cols-[2fr_1fr]
+ ">
 
 
+ <Card>
 
-            <WorkflowRows />
+ <div className="
+ flex
 
-          </Card>
+ justify-between
+ ">
 
+ <div>
 
+ <BarChart3
 
-          <Card className="p-4">
+ className="
+ size-5
 
-            <Clock3 className="size-5 text-runtime" />
+ text-runtime
+ "
 
+ />
 
 
-            <h2 className="mt-2 font-semibold">
+ <h2 className="
+ mt-2
 
-              Recent operations
+ font-semibold
+ ">
 
-            </h2>
+ Runtime analytics
 
+ </h2>
 
+ </div>
 
-            <RuntimeFeed />
 
-          </Card>
 
-        </div>
+ <div className="
+ text-xs
 
-      </div>
+ text-muted-foreground
+ ">
 
-    </section>
+ LIVE
 
-  );
+ </div>
+
+ </div>
+
+
+
+ <div className="
+ mt-5
+
+ flex
+
+ h-44
+
+ items-end
+
+ gap-2
+ ">
+
+ {
+
+ visual.bars.map(
+
+ (
+
+ h,
+
+ i
+
+ )=>(
+
+ <div
+
+ key={i}
+
+ className="
+ flex-1
+
+ rounded-t-md
+
+ bg-runtime
+
+ hover:opacity-80
+ "
+
+ style={{
+
+ height:
+
+ `${h}%`
+
+ }}
+
+ />
+
+ )
+
+ )
+
+ }
+
+ </div>
+
+ </Card>
+
+
+
+
+
+
+ <Card>
+
+ <div className="
+ flex
+
+ items-center
+
+ gap-2
+ ">
+
+ <Activity
+
+ className="
+ size-4
+
+ text-runtime
+ "
+
+ />
+
+ <h2>
+
+ Runtime feed
+
+ </h2>
+
+ </div>
+
+ <RuntimeFeed/>
+
+ </Card>
+
+ </div>
+
+
+
+
+
+
+
+
+
+ <div className="
+ grid
+
+ gap-4
+
+ lg:grid-cols-2
+ ">
+
+ <Card>
+
+ <Route
+ className="
+ size-5
+
+ text-runtime
+ "
+ />
+
+ <h2 className="
+ mt-2
+
+ font-semibold
+ ">
+
+ Workflow queue
+
+ </h2>
+
+ <WorkflowRows/>
+
+ </Card>
+
+
+
+
+ <Card>
+
+ <Clock3
+ className="
+ size-5
+
+ text-runtime
+ "
+ />
+
+ <h2 className="
+ mt-2
+
+ font-semibold
+ ">
+
+ Recent operations
+
+ </h2>
+
+ <RuntimeFeed/>
+
+ </Card>
+
+ </div>
+
+ </div>
+
+ </section>
+
+ );
 
 }
 
@@ -494,156 +768,167 @@ export function LiveCanvas() {
 
 
 
-function RuntimeFeed() {
 
-  return (
+function RuntimeFeed(){
 
-    <div className="mt-3 space-y-2">
+ return(
 
-      {
+ <div className="
+ mt-4
 
-        [
+ space-y-2
+ ">
 
-          "Runtime synced",
+ {
 
-          "Preview deployed",
+ [
 
-          "Mutation applied",
+ "Runtime synced",
 
-          "Workflow generated",
+ "Preview deployed",
 
-        ]
+ "Mutation applied",
 
-          .map(
+ "Workflow generated"
 
-            (
+ ]
 
-              item,
+ .map(
 
-              i
+ (
 
-            ) => (
+ item,
 
-              <div
+ i
 
-                key={item}
+ )=>(
 
-                className="
-                flex
+ <div
 
-                justify-between
+ key={item}
 
-                rounded-md
+ className="
+ flex
 
-                bg-white/[0.03]
+ justify-between
 
-                px-3
+ rounded-md
 
-                py-2
+ bg-muted
 
-                text-xs
+ px-3
 
-                hover:bg-white/[0.06]
-                "
+ py-2
 
-              >
+ text-sm
 
-                <span>
+ hover:bg-runtime/5
+ "
 
-                  ● {item}
+ >
 
-                </span>
+ <span>
 
+ ● {item}
 
+ </span>
 
-                <span className="text-white/45">
+ <span className="
+ text-muted-foreground
+ ">
 
-                  {
+ {
 
-                    i + 1
+ i+1
 
-                  }m
+ }m
 
-                </span>
+ </span>
 
-              </div>
+ </div>
 
-            )
+ )
 
-          )
+ )
 
-      }
+ }
 
-    </div>
+ </div>
 
-  );
+ );
 
 }
 
 
 
-function WorkflowRows() {
 
-  return (
 
-    <div className="mt-3 space-y-2">
+function WorkflowRows(){
 
-      {
+ return(
 
-        Array.from({
+ <div className="
+ mt-4
 
-          length: 4
+ space-y-2
+ ">
 
-        })
+ {
 
-          .map(
+ Array.from({
 
-            (
+ length:4
 
-              _,
+ })
 
-              i
+ .map(
 
-            ) => (
+ (
 
-              <div
+ _,
 
-                key={i}
+ i
 
-                className="
-                rounded-md
+ )=>(
 
-                bg-white/[0.03]
+ <div
 
-                px-3
+ key={i}
 
-                py-2
+ className="
+ rounded-md
 
-                text-xs
-                "
+ bg-muted
 
-              >
+ px-3
 
-                #
+ py-2
 
-                {
+ text-sm
+ "
 
-                  i + 1
+ >
 
-                }
+ #
 
-                · ready for mutation
+ {
 
-              </div>
+ i+1
 
-            )
+ }
 
-          )
+ · ready for mutation
 
-      }
+ </div>
 
-    </div>
+ )
 
-  );
+ )
+
+ }
+
+ </div>
+
+ );
 
 }

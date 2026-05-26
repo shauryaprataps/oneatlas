@@ -1,493 +1,462 @@
 "use client";
 
 import {
-  PanelLeftClose,
-  PanelRightClose,
-  Rocket,
-  Search,
-  Share2,
-  Activity,
+ Activity,
+ PanelLeftClose,
+ PanelRightClose,
+ Rocket,
+ Search,
+ Share2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import {
-  useBuilderStore,
+ useBuilderStore,
 } from "@/store/builder-store";
-
-
 
 export function BuilderTopbar(){
 
-const {
+ const{
 
-schema,
+ schema,
+ panels,
+ setAppName,
+ togglePanel,
+ setCommandOpen,
 
-setAppName,
+ }=
 
-togglePanel,
+ useBuilderStore();
 
-setCommandOpen,
 
-}=
+ return(
 
-useBuilderStore();
+ <header
 
+ className="
+ flex
+ h-14
+ items-center
+ justify-between
+ border-b
+ border-border
+ bg-white
+ px-4
+ shadow-sm
+ "
 
+ >
 
-return(
 
-<header
+ {/* LEFT */}
 
-className="
-flex
+ <div className="
+ flex
+ min-w-0
+ items-center
+ gap-3
+ ">
 
-h-14
 
-items-center
+ <Button
 
-justify-between
+ size="icon"
 
-border-b
+ variant="ghost"
 
-border-white/10
+ onClick={()=>
 
-bg-navy/95
+ togglePanel(
+ "left"
+ )
 
-px-3
+ }
 
-text-white
+ >
 
-shadow-[var(--shadow-glass)]
+ <PanelLeftClose
 
-backdrop-blur-xl
-"
+ className={`
+ size-4
+ text-muted-foreground
+ transition-transform
 
->
+ ${
 
+ !panels.left
 
+ ?
 
-{/* LEFT */}
+ "rotate-180"
 
-<div
-className="
-flex
+ :
 
-items-center
+ ""
 
-gap-3
+ }
 
-min-w-0
-"
->
+ `}
 
+ />
 
-<Button
+ </Button>
 
-size="icon"
 
-variant="ghost"
 
-onClick={()=>
 
-togglePanel(
 
-"left"
+ <input
 
-)
+ value={
 
-}
+ schema.appName
 
->
+ }
 
-<PanelLeftClose
-className="
-size-4
-"/>
-</Button>
+ onChange={
 
+ e=>
 
+ setAppName(
 
+ e.target.value
 
+ )
 
-<input
+ }
 
-value={
+ className="
+ w-44
+ rounded-md
+ border
+ border-border
+ bg-muted
 
-schema.appName
+ px-3
+ py-1.5
 
-}
+ text-sm
+ font-medium
 
-onChange={
+ text-foreground
 
-e=>
+ outline-none
 
-setAppName(
+ focus:border-runtime/30
+ "
 
-e.target.value
+ />
 
-)
 
-}
 
-className="
-w-44
 
-truncate
 
-rounded-md
 
-border
+ <div className="
+ hidden
+ lg:flex
+ items-center
+ gap-3
+ ml-3
+ ">
 
-border-transparent
 
-bg-white/[0.03]
 
-px-3
+ <div className="
+ flex
+ items-center
+ gap-2
 
-py-1.5
+ rounded-md
 
-text-sm
+ bg-success/10
 
-font-medium
+ px-2
+ py-1
+ ">
 
-outline-none
+ <span className="
+ h-2
+ w-2
 
-focus:border-runtime/20
+ rounded-full
 
-focus:bg-white/[0.05]
-"
+ bg-success
 
-/>
+ animate-pulse
+ "/>
 
 
 
+ <span className="
+ text-xs
+ text-success
+ ">
 
+ Connected
 
-{/* STATUS */}
+ </span>
 
-<div
-className="
-hidden
+ </div>
 
-lg:flex
 
-items-center
 
-gap-3
 
-ml-2
-"
->
 
+ <Badge
 
-<div
-className="
-flex
+ tone="runtime"
 
-items-center
+ >
 
-gap-2
+ v{
 
-rounded-md
+ schema.version
 
-bg-success/10
+ }
 
-px-2
+ </Badge>
 
-py-1
-"
->
 
-<span
-className="
-h-2
 
-w-2
 
-rounded-full
 
-bg-success
 
-animate-pulse
-"/>
+ <div className="
+ flex
+ items-center
+ gap-1
 
+ text-xs
 
+ text-muted-foreground
+ ">
 
-<span
-className="
-text-xs
+ <Activity
+ className="
+ size-3
+ "/>
 
-text-success
-"
->
+ 2m
 
-Connected
+ </div>
 
-</span>
 
-</div>
 
 
 
 
+ <div className="
+ text-xs
+ text-muted-foreground
+ ">
 
-<Badge
+ {
 
-tone="runtime"
+ schema.metadata
+ .environment
 
-className="
-bg-runtime/10
+ }
 
-text-runtime
-"
+ </div>
 
->
 
-v{
 
-schema.version
 
-}
 
-</Badge>
 
+ <div className="
+ max-w-[120px]
+ truncate
 
+ text-xs
 
+ text-muted-foreground
+ ">
 
+ {
 
-<div
-className="
-flex
+ schema.metadata
+ .runtimeId
 
-items-center
+ }
 
-gap-1
+ </div>
 
-text-xs
+ </div>
 
-text-white/55
-"
->
+ </div>
 
-<Activity
-className="
-size-3
-"/>
 
 
 
-2m
 
-</div>
 
 
 
+ {/* RIGHT */}
 
+ <div className="
+ flex
+ items-center
+ gap-2
+ ">
 
-<div
-className="
-text-xs
 
-text-white/45
-"
->
+ <Button
 
-{
+ size="icon"
 
-schema.metadata.environment
+ variant="ghost"
 
-}
+ onClick={()=>
 
-</div>
+ setCommandOpen(
+ true
+ )
 
+ }
 
+ >
 
+ <Search
+ className="
+ size-4
+ text-muted-foreground
+ "/>
 
+ </Button>
 
-<div
-className="
-truncate
 
-text-xs
 
-text-white/40
 
-max-w-[100px]
-"
->
 
-{
 
-schema.metadata.runtimeId
+ <Button
 
-}
+ size="sm"
 
-</div>
+ variant="outline"
 
-</div>
+ className="
+ border-border
+ bg-white
 
-</div>
+ hover:bg-muted
+ "
 
+ >
 
+ <Share2
+ className="
+ size-3
+ "/>
 
+ <span
+ className="
+ text-xs
+ ">
 
+ Share
 
+ </span>
 
-{/* RIGHT */}
+ </Button>
 
-<div
-className="
-flex
 
-items-center
 
-gap-2
-"
->
 
 
-<Button
 
-size="icon"
 
-variant="ghost"
+ <Button
 
-onClick={()=>
+ size="sm"
 
-setCommandOpen(
+ className="
+ bg-runtime
 
-true
+ hover:bg-runtime-hover
 
-)
+ text-white
+ "
 
-}
+ >
 
->
+ <Rocket
+ className="
+ size-3
+ "/>
 
-<Search
-className="
-size-4
-"/>
+ <span
+ className="
+ text-xs
+ ">
 
-</Button>
+ Deploy
 
+ </span>
 
+ </Button>
 
 
 
-<Button
 
-size="sm"
 
-variant="outline"
 
-className="
-h-8
 
-gap-1
 
-border-white/10
+ <Button
 
-bg-white/[0.03]
+ size="icon"
 
-hover:bg-white/[0.08]
-"
+ variant="ghost"
 
->
+ onClick={()=>
 
-<Share2
-className="
-size-3
-"/>
+ togglePanel(
+ "right"
+ )
 
+ }
 
+ >
 
-<span
-className="
-text-xs
-"
->
+ <PanelRightClose
 
-Share
+ className={`
+ size-4
 
-</span>
+ text-muted-foreground
 
-</Button>
+ transition-transform
 
+ ${
 
+ !panels.right
 
+ ?
 
+ "rotate-180"
 
-<Button
+ :
 
-size="sm"
+ ""
 
-className="
-h-8
+ }
 
-gap-1
+ `}
 
-bg-runtime
+ />
 
-hover:bg-runtime/90
-"
+ </Button>
 
->
+ </div>
 
-<Rocket
-className="
-size-3
-"/>
+ </header>
 
-
-
-<span
-className="
-text-xs
-"
->
-
-Deploy
-
-</span>
-
-</Button>
-
-
-
-
-
-<Button
-
-size="icon"
-
-variant="ghost"
-
-onClick={()=>
-
-togglePanel(
-
-"right"
-
-)
-
-}
-
->
-
-<PanelRightClose
-className="
-size-4
-"/>
-
-</Button>
-
-</div>
-
-</header>
-
-);
+ );
 
 }

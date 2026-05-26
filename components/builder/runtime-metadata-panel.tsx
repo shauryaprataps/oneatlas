@@ -3,710 +3,605 @@
 import { useState } from "react";
 
 import {
-  ChevronDown,
-  Database,
-  GitBranch,
-  Layers3,
-  Activity,
+ ChevronDown,
+ Database,
+ GitBranch,
+ Layers3,
+ Activity,
 } from "lucide-react";
 
 import {
-  StatusBadge,
+ StatusBadge,
 } from "@/components/ui/status-badge";
 
 import {
-  useBuilderStore,
+ useBuilderStore,
 } from "@/store/builder-store";
-
-
 
 export function RuntimeMetadataPanel(){
 
-const schema=
+ const schema=
+ useBuilderStore(
+ state=>
+ state.schema
+ );
 
-useBuilderStore(
+ const[
+ open,
+ setOpen
+ ]=
+ useState(true);
 
-state=>
-
-state.schema
-
-);
-
-
-
-const [
-
-open,
-
-setOpen
-
-]=
-
-useState(
-
-true
-
-);
+ const meta=
+ schema.metadata;
 
 
+ const items=[
 
-const meta=
+ ["Template",meta.templateName],
 
-schema.metadata;
+ ["Runtime",meta.runtimeId],
+
+ ["Version",`v${schema.version}`],
+
+ ["Complexity",meta.complexity],
+
+ ["Mutations",String(
+ meta.mutationCount
+ )],
+
+ ["Previews",String(
+ meta.previewCount
+ )],
+
+ ["Environment",meta.environment],
+
+ ["Edited",meta.lastEdited],
+
+ ];
 
 
+ return(
 
-const items=[
+ <section
 
-["Template",
+ className="
+ rounded-xl
+ border
+ border-border
+ bg-white
+ p-4
+ shadow-sm
+ "
 
-meta.templateName],
-
-["Runtime",
-
-meta.runtimeId],
-
-["Version",
-
-`v${schema.version}`],
-
-["Complexity",
-
-meta.complexity],
-
-["Mutations",
-
-String(
-meta.mutationCount
-)],
-
-["Previews",
-
-String(
-meta.previewCount
-)],
-
-["Environment",
-
-meta.environment],
-
-["Edited",
-
-meta.lastEdited],
-
-];
+ >
 
 
 
-return(
+ {/* HEADER */}
 
-<section
+ <button
 
-className="
-rounded-lg
+ onClick={()=>
 
-border
+ setOpen(
+ !open
+ )
 
-border-white/10
+ }
 
-bg-ink/70
+ className="
+ flex
+ w-full
+ items-center
+ justify-between
+ "
 
-p-3
+ >
 
-text-white
-"
+ <div className="
+ flex
+ items-center
+ gap-2
+ ">
 
->
+ <Database
+
+ className="
+ size-4
+ text-runtime
+ "
+
+ />
+
+
+ <span className="
+ text-xs
+ font-semibold
+ uppercase
+ tracking-wide
+ text-foreground
+ ">
+
+ Runtime diagnostics
+
+ </span>
+
+ </div>
 
 
 
-{/* HEADER */}
+ <div className="
+ flex
+ items-center
+ gap-2
+ ">
 
-<button
+ <StatusBadge
 
-onClick={()=>
+ status={
+ schema.connection
+ }
 
-setOpen(
+ />
 
-!open
+ <ChevronDown
 
-)
+ className={`
+
+ size-4
+
+ text-muted-foreground
+
+ transition
+
+ ${
+
+ open
+
+ ?
+
+ ""
+
+ :
+
+ "-rotate-90"
+
+ }
+
+ `}
+
+ />
+
+ </div>
+
+ </button>
+
+
+
+
+
+
+ <div
+
+ className={`
+
+ overflow-hidden
+
+ transition-all
+
+ duration-200
+
+ ${
+
+ open
+
+ ?
+
+ "max-h-[1000px] mt-4"
+
+ :
+
+ "max-h-0"
+
+ }
+
+ `}
+
+ >
+
+
+
+ {/* HEALTH */}
+
+ <div className="
+ mb-4
+
+ rounded-lg
+
+ border
+
+ border-runtime/10
+
+ bg-runtime/5
+
+ p-3
+ ">
+
+
+ <div className="
+ flex
+ justify-between
+ items-center
+ ">
+
+
+ <div className="
+ flex
+ items-center
+ gap-2
+ ">
+
+ <Activity
+
+ className="
+ size-4
+ text-success
+ "
+
+ />
+
+
+ <span className="
+ text-xs
+ font-medium
+ ">
+
+ Runtime health
+
+ </span>
+
+ </div>
+
+
+
+ <div className="
+ flex
+ items-center
+ gap-1
+ ">
+
+ <span className="
+ h-2
+ w-2
+
+ rounded-full
+
+ bg-success
+
+ animate-pulse
+ "/>
+
+ <span className="
+ text-xs
+ text-success
+ ">
+
+ Healthy
+
+ </span>
+
+ </div>
+
+ </div>
+
+
+
+
+ <div className="
+ mt-4
+
+ grid
+
+ grid-cols-3
+
+ gap-2
+ ">
+
+ <Metric
+
+ label="CPU"
+
+ value="18%"
+
+ />
+
+ <Metric
+
+ label="Mutations"
+
+ value={
+
+ String(
+ meta.mutationCount
+ )
+
+ }
+
+ />
+
+ <Metric
+
+ label="Previews"
+
+ value={
+
+ String(
+ meta.previewCount
+ )
+
+ }
+
+ />
+
+ </div>
+
+ </div>
+
+
+
+
+
+
+ {/* META */}
+
+ <div className="
+ space-y-2
+ ">
+
+ {
+
+ items.map(
+
+ ([
+
+ label,
+
+ value
+
+ ])=>(
+
+ <div
+
+ key={
+ label
+ }
+
+ className="
+ flex
+
+ justify-between
+
+ rounded-md
+
+ bg-muted
+
+ px-3
+
+ py-2
+
+ hover:bg-runtime/5
+
+ transition
+ "
+
+ >
+
+ <span className="
+ text-[10px]
+
+ uppercase
+
+ tracking-wide
+
+ text-muted-foreground
+ ">
+
+ {label}
+
+ </span>
+
+
+
+ <span className="
+ text-xs
+
+ truncate
+
+ text-foreground
+ ">
+
+ {value}
+
+ </span>
+
+ </div>
+
+ )
+
+ )
+
+ }
+
+ </div>
+
+
+
+
+
+
+
+ {/* STATUS */}
+
+ <div className="
+ mt-4
+
+ grid
+
+ grid-cols-2
+
+ gap-2
+ ">
+
+ <StatusCard
+
+ icon={
+ GitBranch
+ }
+
+ title="Versioned"
+
+ color="text-runtime"
+
+ />
+
+
+ <StatusCard
+
+ icon={
+ Layers3
+ }
+
+ title="Schema source"
+
+ color="text-success"
+
+ />
+
+ </div>
+
+ </div>
+
+ </section>
+
+ );
 
 }
 
-className="
-flex
-
-w-full
-
-items-center
-
-justify-between
-"
-
->
-
-<div
-className="
-flex
-
-items-center
-
-gap-2
-"
->
-
-<Database
-className="
-size-4
-
-text-runtime
-"/>
-
-
-
-<span
-className="
-text-xs
-
-font-semibold
-
-uppercase
-
-tracking-wide
-"
->
-
-Runtime diagnostics
-
-</span>
-
-</div>
-
-
-
-<div
-className="
-flex
-
-items-center
-
-gap-2
-"
->
-
-<StatusBadge
-
-status={
-schema.connection
-}
-
-/>
-
-
-
-<ChevronDown
-
-className={`
-
-size-4
-
-transition
-
-${
-
-open
-
-?
-
-""
-
-:
-
-"-rotate-90"
-
-}
-
-`}
-
-/>
-
-</div>
-
-</button>
-
-
-
-
-
-<div
-
-className={`
-
-overflow-hidden
-
-transition-all
-
-duration-200
-
-${
-
-open
-
-?
-
-"max-h-[800px] mt-3"
-
-:
-
-"max-h-0"
-
-}
-
-`}
-
->
-
-
-
-
-{/* HEALTH */}
-
-<div
-className="
-mb-3
-
-rounded-lg
-
-border
-
-border-runtime/10
-
-bg-runtime/5
-
-p-3
-"
->
-
-<div
-className="
-flex
-
-items-center
-
-justify-between
-"
->
-
-<div
-className="
-flex
-
-items-center
-
-gap-2
-"
->
-
-<Activity
-className="
-size-4
-
-text-success
-"/>
-
-
-
-<span
-className="
-text-xs
-
-font-medium
-"
->
-
-Runtime health
-
-</span>
-
-</div>
-
-
-
-<div
-className="
-flex
-
-items-center
-
-gap-1
-"
->
-
-<span
-className="
-h-2
-
-w-2
-
-rounded-full
-
-bg-success
-
-animate-pulse
-"/>
-
-
-
-<span
-className="
-text-[10px]
-
-text-success
-"
->
-
-Healthy
-
-</span>
-
-</div>
-
-</div>
-
-
-
-<div
-className="
-mt-3
-
-grid
-
-grid-cols-3
-
-gap-2
-"
->
-
-<Metric
-label="CPU"
-value="18%"
-/>
-
-<Metric
-label="Mutations"
-value={String(
-meta.mutationCount
-)}
-/>
-
-<Metric
-label="Previews"
-value={String(
-meta.previewCount
-)}
-/>
-
-</div>
-
-</div>
-
-
-
-
-
-{/* META */}
-
-<div
-className="
-space-y-2
-"
->
-
-{
-
-items.map(
-
-([
-
-label,
-
-value
-
-])=>(
-
-<div
-
-key={
-
-label
-
-}
-
-className="
-flex
-
-justify-between
-
-rounded-md
-
-bg-white/[0.02]
-
-px-2
-
-py-2
-
-hover:bg-white/[0.04]
-"
-
->
-
-<span
-className="
-text-[10px]
-
-uppercase
-
-tracking-wide
-
-text-white/40
-"
->
-
-{
-
-label
-
-}
-
-</span>
-
-
-
-<span
-className="
-truncate
-
-text-xs
-"
->
-
-{
-
-value
-
-}
-
-</span>
-
-</div>
-
-)
-
-)
-
-}
-
-</div>
-
-
-
-
-
-{/* STATUS */}
-
-<div
-className="
-mt-3
-
-grid
-
-grid-cols-2
-
-gap-2
-"
->
-
-<StatusCard
-
-icon={
-GitBranch
-}
-
-title="Versioned"
-
-color="
-text-runtime
-"
-
-/>
-
-
-
-<StatusCard
-
-icon={
-Layers3
-}
-
-title="Schema source"
-
-color="
-text-success
-"
-
-/>
-
-</div>
-
-</div>
-
-</section>
-
-);
-
-}
 
 
 
 function Metric({
 
-label,
+ label,
 
-value
+ value
 
 }:any){
 
-return(
+ return(
 
-<div
-className="
-rounded-md
+ <div className="
+ rounded-md
 
-bg-white/[0.03]
+ bg-muted
 
-p-2
+ p-2
 
-text-center
-"
->
+ text-center
+ ">
 
-<div
-className="
-text-[10px]
+ <div className="
+ text-[10px]
 
-uppercase
+ uppercase
 
-text-white/40
-"
->
+ text-muted-foreground
+ ">
 
-{
+ {label}
 
-label
-
-}
-
-</div>
+ </div>
 
 
 
-<div
-className="
-mt-1
+ <div className="
+ mt-1
 
-text-sm
+ text-sm
 
-font-medium
-"
->
+ font-medium
 
-{
+ text-foreground
+ ">
 
-value
+ {value}
+
+ </div>
+
+ </div>
+
+ );
 
 }
 
-</div>
-
-</div>
-
-);
-
-}
 
 
 
 function StatusCard({
 
-icon:
+ icon:Icon,
 
-Icon,
+ title,
 
-title,
-
-color
+ color
 
 }:any){
 
-return(
+ return(
 
-<div
-className="
-rounded-md
+ <div className="
+ rounded-md
 
-border
+ border
 
-border-white/10
+ border-border
 
-p-2
+ p-3
 
-hover:bg-white/[0.03]
-"
->
+ hover:bg-runtime/5
 
-<Icon
+ transition
+ ">
 
-className={`
+ <Icon
 
-mb-1
+ className={`
+ mb-2
 
-size-3
+ size-4
 
-${
+ ${color}
+ `}
 
-color
+ />
 
-}
+ <div className="
+ text-[10px]
 
-`}
+ uppercase
 
-/>
+ tracking-wide
 
+ text-muted-foreground
+ ">
 
+ {title}
 
-<div
-className="
-text-[10px]
+ </div>
 
-uppercase
+ </div>
 
-tracking-wide
-
-text-white/45
-"
->
-
-{
-
-title
-
-}
-
-</div>
-
-</div>
-
-);
+ );
 
 }

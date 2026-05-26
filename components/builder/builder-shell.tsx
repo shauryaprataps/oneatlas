@@ -1,11 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { templates } from "@/config/templates";
 import { useBuilderStore } from "@/store/builder-store";
@@ -17,354 +13,312 @@ import { LiveCanvas } from "./live-canvas";
 import { RuntimeMetadataPanel } from "./runtime-metadata-panel";
 import { AICopilotPanel } from "./ai-copilot-panel";
 
-interface BuilderShellProps {
-  runtimeId?: string;
+interface BuilderShellProps{
+ runtimeId?:string;
 }
 
 function clamp(
-  n: number,
-  min: number,
-  max: number
-) {
-  return Math.max(
-    min,
-    Math.min(max, n)
-  );
+ n:number,
+ min:number,
+ max:number
+){
+ return Math.max(
+  min,
+  Math.min(max,n)
+ );
 }
 
 export function BuilderShell({
+ runtimeId,
+}:BuilderShellProps){
+
+ const params=
+ useSearchParams();
+
+ const{
+  panels,
+  setSchemaById,
+  setSchemaByRuntimeId,
+ }=
+ useBuilderStore();
+
+ const[
+  leftWidth,
+  setLeftWidth
+ ]=
+ useState(280);
+
+ const[
+  resizingLeft,
+  setResizingLeft
+ ]=
+ useState(false);
+
+ const shellRef=
+ useRef<HTMLDivElement|null>(
+  null
+ );
+
+ useEffect(()=>{
+
+  if(runtimeId){
+
+   setSchemaByRuntimeId(
+    runtimeId
+   );
+
+   return;
+  }
+
+  const slug=
+  params.get(
+   "template"
+  );
+
+  const template=
+  templates.find(
+   t=>
+   t.slug===slug
+  );
+
+  if(template){
+
+   setSchemaById(
+    template.schemaId
+   );
+
+  }
+
+ },[
+  params,
   runtimeId,
-}: BuilderShellProps) {
+  setSchemaById,
+  setSchemaByRuntimeId
+ ]);
 
-  const params =
-    useSearchParams();
 
-  const {
-    panels,
-    setSchemaById,
-    setSchemaByRuntimeId,
-  } =
-    useBuilderStore();
+ useEffect(()=>{
 
-  const [
-    leftWidth,
-    setLeftWidth,
-  ] =
-    useState(260);
+  function move(
+   e:PointerEvent
+  ){
 
-  const [
-    resizingLeft,
-    setResizingLeft,
-  ] =
-    useState(false);
+   if(
+    !resizingLeft||
+    !shellRef.current
+   ) return;
 
-  const shellRef =
-    useRef<HTMLDivElement | null>(
-      null
-    );
+   const rect=
+   shellRef.current.getBoundingClientRect();
 
+   setLeftWidth(
 
+    clamp(
 
-  useEffect(() => {
+     e.clientX-
+     rect.left,
 
-    if (runtimeId) {
+     220,
 
-      setSchemaByRuntimeId(
-        runtimeId
-      );
+     420
 
-      return;
-    }
+    )
 
-    const slug =
-      params.get(
-        "template"
-      );
+   );
 
-    const template =
-      templates.find(
-        item =>
-          item.slug === slug
-      );
+  }
 
-    if (template) {
+  function stop(){
 
-      setSchemaById(
-        template.schemaId
-      );
+   setResizingLeft(
+    false
+   );
 
-    }
+  }
 
-  }, [
+  window.addEventListener(
+   "pointermove",
+   move
+  );
 
-    params,
-    runtimeId,
-    setSchemaById,
-    setSchemaByRuntimeId,
+  window.addEventListener(
+   "pointerup",
+   stop
+  );
 
-  ]);
+  return()=>{
 
+   window.removeEventListener(
+    "pointermove",
+    move
+   );
 
+   window.removeEventListener(
+    "pointerup",
+    stop
+   );
 
-  useEffect(() => {
+  };
 
-    function move(
-      e: PointerEvent
-    ) {
+ },[
+  resizingLeft
+ ]);
 
-      if (
-        !resizingLeft ||
-        !shellRef.current
-      )
-        return;
 
-      const rect =
-        shellRef.current.getBoundingClientRect();
+ return(
 
-      setLeftWidth(
+ <div className="
+ flex
+ h-screen
+ flex-col
+ bg-background
+ ">
 
-        clamp(
+  <BuilderTopbar/>
 
-          e.clientX -
-          rect.left,
+  <CommandPalette/>
 
-          180,
+  <div
 
-          360
+   ref={shellRef}
 
-        )
+   className="
+   flex
+   flex-1
+   overflow-hidden
+   "
 
-      );
+  >
 
-    }
 
+   {/* LEFT */}
 
+   <aside
 
-    function stop() {
+    style={{
 
-      setResizingLeft(
-        false
-      );
+     width:
 
-    }
+     panels.left
 
+     ?
 
+     leftWidth
 
-    window.addEventListener(
-      "pointermove",
-      move
-    );
+     :
 
-    window.addEventListener(
-      "pointerup",
-      stop
-    );
+     56
 
+    }}
 
+    className="
+    hidden
+    xl:flex
+    flex-col
+    border-r
+    border-border
+    bg-white
+    transition-[width]
+    duration-200
+    relative
+    flex-shrink-0
+    shadow-sm
+    "
 
-    return () => {
+   >
 
-      window.removeEventListener(
-        "pointermove",
-        move
-      );
+    {
 
-      window.removeEventListener(
-        "pointerup",
-        stop
-      );
+     panels.left&&(
 
-    };
+      <>
 
-  }, [
+       <div className="
+       flex-1
+       overflow-y-auto
+       p-3
+       ">
 
-    resizingLeft
+        <RuntimeMetadataPanel/>
 
-  ]);
+        <div className="
+        mt-4
+        border-t
+        border-border
+        pt-4
+        ">
 
+         <div className="
+         mb-2
+         text-xs
+         uppercase
+         text-muted-foreground
+         ">
 
+          Runtime Tree
 
-  return (
+         </div>
 
-    <div
+         <ComponentTree/>
 
-      className="
-      flex
-      h-screen
-      flex-col
-      overflow-hidden
-      bg-background
-      text-foreground
-      "
+        </div>
 
-    >
+       </div>
 
-      <BuilderTopbar />
 
-      <CommandPalette />
+       <div
 
+        onPointerDown={()=>
 
-
-      <div
-
-        ref={shellRef}
-
-        className="
-        grid
-        flex-1
-        min-h-0
-        grid-cols-1
-        xl:grid-cols-[auto_minmax(0,1fr)_auto]
-        "
-
-      >
-
-
-
-        {/* LEFT */}
-
-        {
-
-          panels.left && (
-
-            <aside
-
-              style={{
-
-                width:
-                  `${leftWidth}px`,
-
-                minWidth:
-                  `${leftWidth}px`
-
-              }}
-
-              className="
-              relative
-              hidden
-              xl:flex
-              flex-col
-              overflow-hidden
-              border-r
-              border-white/10
-              bg-navy/85
-              text-white
-              backdrop-blur-xl
-              flex-shrink-0
-              "
-
-            >
-
-              <div
-                className="
-                flex-1
-                overflow-auto
-                p-2
-                "
-              >
-
-                <RuntimeMetadataPanel />
-
-                <div
-                  className="
-                  mt-3
-                  border-t
-                  border-white/10
-                  pt-3
-                  "
-                >
-
-                  <div
-                    className="
-                    mb-2
-                    text-xs
-                    uppercase
-                    tracking-wide
-                    text-white/40
-                    "
-                  >
-
-                    Runtime tree
-
-                  </div>
-
-                  <ComponentTree />
-
-                </div>
-
-              </div>
-
-
-
-              {/* RESIZER */}
-
-              <div
-
-                onPointerDown={() =>
-
-                  setResizingLeft(
-                    true
-                  )
-
-                }
-
-                className="
-                absolute
-                right-0
-                top-0
-                h-full
-                w-2
-                cursor-ew-resize
-                "
-
-              />
-
-            </aside>
-
-          )
+         setResizingLeft(
+          true
+         )
 
         }
 
+        className="
+        absolute
+        right-0
+        top-0
+        h-full
+        w-2
+        cursor-ew-resize
+        "
+
+       />
+
+      </>
+
+     )
+
+    }
+
+   </aside>
 
 
-        {/* CENTER */}
 
-        <div
+   {/* CENTER */}
 
-          className="
-          min-w-0
-          overflow-hidden
-          "
+   <main className="
+   flex-1
+   overflow-y-auto
+   bg-background
+   ">
 
-        >
+    <LiveCanvas/>
 
-          <LiveCanvas />
-
-        </div>
+   </main>
 
 
 
-        {/* RIGHT */}
+   {/* RIGHT */}
 
-        <div
+   <AICopilotPanel/>
 
-          className="
-          hidden
-          xl:flex
-          overflow-hidden
-          flex-shrink-0
-          "
+  </div>
 
-        >
+ </div>
 
-          <AICopilotPanel />
-
-        </div>
-
-      </div>
-
-    </div>
-
-  );
+ );
 
 }

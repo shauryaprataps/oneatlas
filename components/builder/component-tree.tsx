@@ -3,375 +3,389 @@
 import { useState } from "react";
 
 import {
-  ChevronDown,
-  Layers3,
+ ChevronDown,
+ Layers3,
 } from "lucide-react";
 
-import type {
-  BuilderComponentNode,
-} from "@/types";
+import type{
+ BuilderComponentNode,
+}
+from "@/types";
 
 import {
-  useBuilderStore,
-} from "@/store/builder-store";
+ useBuilderStore,
+}
+from "@/store/builder-store";
 
 import {
-  cn,
-} from "@/lib/utils";
+ cn,
+}
+from "@/lib/utils";
 
 
 
-export function ComponentTree() {
+export function ComponentTree(){
 
-  const {
+ const{
 
-    schema,
+ schema,
+ selectedId,
+ selectComponent,
 
-    selectedId,
+ }=
 
-    selectComponent,
-
-  } =
-    useBuilderStore();
-
+ useBuilderStore();
 
 
-  return (
+ return(
 
-    <div
+ <div className="
+ space-y-1
+ ">
 
-      className="
-      space-y-1
-      "
+ {
 
-    >
+ schema.components.map(
 
-      {schema.components.map(
+ node=>(
 
-        (
-          node
-        ) => (
+ <TreeNode
 
-          <TreeNode
+ key={
+ node.id
+ }
 
-            key={
-              node.id
-            }
+ node={
+ node
+ }
 
-            node={
-              node
-            }
+ selectedId={
+ selectedId
+ }
 
-            selectedId={
-              selectedId
-            }
+ selectComponent={
+ selectComponent
+ }
 
-            selectComponent={
-              selectComponent
-            }
+ />
 
-          />
+ )
 
-        )
+ )
 
-      )}
+ }
 
-    </div>
+ </div>
 
-  );
+ );
 
 }
 
 
 
 
+
+
+
 function TreeNode({
 
-  node,
+ node,
 
-  selectedId,
+ selectedId,
 
-  selectComponent,
+ selectComponent,
 
-}: {
+}:{
 
-  node:
-    BuilderComponentNode;
+ node:
+ BuilderComponentNode;
 
-  selectedId:
-    string;
+ selectedId:
+ string;
 
-  selectComponent:
-    (
-      id:string
-    ) => void;
+ selectComponent:
+ (
+ id:string
+ )=>void;
 
-}) {
+}){
 
-  const [
+ const[
+ open,
+ setOpen
+ ]=
+ useState(
+ true
+ );
 
-    open,
 
-    setOpen,
+ const active=
 
-  ] =
-    useState(
-      true
-    );
+ selectedId===
 
+ node.id;
 
 
-  const active =
-    selectedId ===
-    node.id;
 
+ return(
 
+ <div>
 
-  return (
+ <button
 
-    <div>
+ onClick={()=>{
 
-      <button
+ selectComponent(
+ node.id
+ );
 
-        onClick={() => {
+ if(
+ node.children
+ ){
 
-          selectComponent(
-            node.id
-          );
+ setOpen(
+ !open
+ );
 
-          if(
-            node.children
-          ){
+ }
 
-            setOpen(
-              !open
-            );
+ }}
 
-          }
+ className={
 
-        }}
+ cn(
 
-        className={cn(
+ `
+ flex
 
-          `
-          flex
+ w-full
 
-          w-full
+ items-center
 
-          items-center
+ justify-between
 
-          justify-between
+ rounded-lg
 
-          rounded-md
+ px-3
 
-          px-2
+ py-2
 
-          py-2
+ text-left
 
-          text-left
+ text-sm
 
-          text-xs
+ transition
 
-          transition-all
+ hover:bg-runtime/5
+ `,
 
-          hover:bg-white/8
-          `,
+ active&&
 
-          active &&
+ `
+ bg-runtime/10
 
-          `
-          bg-runtime/10
+ border
 
-          text-runtime
+ border-runtime/20
 
-          border
+ text-runtime
+ `
 
-          border-runtime/20
-          `
+ )
 
-        )}
+ }
 
-      >
+ >
 
 
 
-        <div
+ <div className="
+ flex
 
-          className="
-          flex
+ items-center
 
-          items-center
+ gap-2
 
-          gap-2
+ overflow-hidden
+ ">
 
-          overflow-hidden
-          "
+ <Layers3
 
-        >
+ className={
 
-          <Layers3
+ cn(
 
-            className={cn(
+ `
+ size-4
 
-              `
-              size-3
+ text-muted-foreground
+ `,
 
-              text-white/40
-              `,
+ active&&
 
-              active &&
+ "text-runtime"
 
-              "text-runtime"
+ )
 
-            )}
+ }
 
-          />
+ />
 
 
 
-          <span
+ <span className="
+ truncate
 
-            className="
-            truncate
-            "
+ text-foreground
+ ">
 
-          >
+ {
 
-            {
+ node.name
 
-              node.name
+ }
 
-            }
+ </span>
 
-          </span>
+ </div>
 
-        </div>
 
 
 
 
-        {
 
-          node.children && (
 
-            <ChevronDown
+ {
 
-              className={cn(
+ node.children&&(
 
-                `
-                size-3
+ <ChevronDown
 
-                transition
+ className={
 
-                text-white/40
-                `,
+ cn(
 
-                !open &&
+ `
+ size-4
 
-                "-rotate-90"
+ text-muted-foreground
 
-              )}
+ transition
+ `,
 
-            />
+ !open&&
 
-          )
+ "-rotate-90"
 
-        }
+ )
 
-      </button>
+ }
 
+ />
 
+ )
 
+ }
 
+ </button>
 
-      {
 
-        node.children && (
 
-          <div
 
-            className={cn(
 
-              `
-              overflow-hidden
 
-              transition-all
 
-              duration-200
 
-              ml-3
+ {
 
-              pl-3
+ node.children&&(
 
-              border-l
+ <div
 
-              border-white/10
-              `,
+ className={
 
-              open
+ cn(
 
-              ?
+ `
+ ml-4
 
-              "max-h-[600px]"
+ overflow-hidden
 
-              :
+ border-l
 
-              "max-h-0"
+ border-border
 
-            )}
+ pl-3
 
-          >
+ transition-all
 
-            <div
-              className="
-              py-1
+ duration-200
+ `,
 
-              space-y-1
-              "
-            >
+ open
 
-              {
+ ?
 
-                node.children.map(
+ "max-h-[600px]"
 
-                  child => (
+ :
 
-                    <TreeNode
+ "max-h-0"
 
-                      key={
-                        child.id
-                      }
+ )
 
-                      node={
-                        child
-                      }
+ }
 
-                      selectedId={
-                        selectedId
-                      }
+ >
 
-                      selectComponent={
-                        selectComponent
-                      }
+ <div className="
+ py-1
 
-                    />
+ space-y-1
+ ">
 
-                  )
+ {
 
-                )
+ node.children.map(
 
-              }
+ child=>(
 
-            </div>
+ <TreeNode
 
-          </div>
+ key={
+ child.id
+ }
 
-        )
+ node={
+ child
+ }
 
-      }
+ selectedId={
+ selectedId
+ }
 
-    </div>
+ selectComponent={
+ selectComponent
+ }
 
-  );
+ />
+
+ )
+
+ )
+
+ }
+
+ </div>
+
+ </div>
+
+ )
+
+ }
+
+ </div>
+
+ );
 
 }
