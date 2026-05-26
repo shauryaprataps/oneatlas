@@ -16,6 +16,9 @@ import {
  useBuilderStore,
 } from "@/store/builder-store";
 
+import Link from "next/link";
+import { Home } from "lucide-react";
+
 export function BuilderTopbar(){
 
  const{
