@@ -2,605 +2,646 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-ChevronLeft,
-ChevronRight
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useBuilderStore } from "@/store/builder-store";
 
-type ActivityItem={
-time:string;
-title:string;
-detail:string;
-tone:string;
+type ActivityItem = {
+  time: string;
+  title: string;
+  detail: string;
+  tone: string;
 };
 
-const suggestions=[
-"Add KPI",
-"Add API",
-"Create workflow",
-"Generate chart",
+const suggestions = [
+  "Add KPI",
+  "Add API",
+  "Create workflow",
+  "Generate chart",
 ];
 
 function clamp(
-n:number,
-min:number,
-max:number
-){
-return Math.max(
-min,
-Math.min(
-max,
-n
-)
-);
+  n: number,
+  min: number,
+  max: number
+) {
+  return Math.max(
+    min,
+    Math.min(
+      max,
+      n
+    )
+  );
 }
 
-export function AICopilotPanel(){
+export function AICopilotPanel() {
 
-const {schema}=
-useBuilderStore();
+  const { schema } =
+    useBuilderStore();
 
-const [
-collapsed,
-setCollapsed
-]=
-useState(
-false
-);
+  const [
+    collapsed,
+    setCollapsed
+  ] =
+    useState(false);
 
-const [
-width,
-setWidth
-]=
-useState(
-390
-);
+  const [
+    width,
+    setWidth
+  ] =
+    useState(390);
 
-const panelRef=
-useRef<HTMLElement|null>(
-null
-);
 
-const dragging=
-useRef(
-false
-);
 
-const history=
-useBuilderStore(
-s=>
-s.schema.history
-) as ActivityItem[];
+  /* resize refs */
 
-const messages=
-useMemo(
-()=>
-history.slice(
-0,
-5
-),
-[history]
-);
+  const dragging =
+    useRef(false);
 
+  const startX =
+    useRef(0);
 
+  const startWidth =
+    useRef(390);
 
-useEffect(()=>{
 
-function move(
-e:PointerEvent
-){
 
-if(
-!dragging.current
-||
-!panelRef.current
-)
-return;
+  const history =
+    useBuilderStore(
+      s =>
+        s.schema.history
+    ) as ActivityItem[];
 
-const parent=
-panelRef.current
-.parentElement;
+  const messages =
+    useMemo(
+      () =>
+        history.slice(
+          0,
+          5
+        ),
+      [history]
+    );
 
-if(
-!parent
-)
-return;
 
-const rect=
-parent.getBoundingClientRect();
 
-const next=
-rect.right-
-e.clientX;
+  useEffect(() => {
 
-setWidth(
+    function move(
+      e: PointerEvent
+    ) {
 
-clamp(
+      if (
+        !dragging.current
+      )
+        return;
 
-next,
 
-360,
 
-520
+      const delta =
+        startX.current -
+        e.clientX;
 
-)
 
-);
 
-}
+      const next =
+        startWidth.current +
+        delta;
 
 
 
-function stop(){
+      setWidth(
 
-dragging.current=
-false;
+        clamp(
 
-document.body.style.cursor=
-"default";
+          next,
 
-}
+          360,
 
+          520
 
+        )
 
-window.addEventListener(
-"pointermove",
-move
-);
+      );
 
-window.addEventListener(
-"pointerup",
-stop
-);
+    }
 
 
 
-return()=>{
+    function stop() {
 
-window.removeEventListener(
-"pointermove",
-move
-);
+      dragging.current =
+        false;
 
-window.removeEventListener(
-"pointerup",
-stop
-);
+      document.body.style.cursor =
+        "default";
 
-};
+      document.body.style.userSelect =
+        "";
 
-},[]);
+    }
 
 
 
-return(
+    window.addEventListener(
+      "pointermove",
+      move
+    );
 
-<aside
+    window.addEventListener(
+      "pointerup",
+      stop
+    );
 
-ref={
-panelRef
-}
 
-className="
-hidden
-xl:flex
-flex-col
-h-full
-overflow-hidden
-border-l
-border-white/10
-bg-navy/95
-text-white
-relative
-"
 
-style={{
+    return () => {
 
-width:
+      window.removeEventListener(
+        "pointermove",
+        move
+      );
 
-collapsed
+      window.removeEventListener(
+        "pointerup",
+        stop
+      );
 
-?
+    };
 
-56
+  }, []);
 
-:
 
-width
 
-}}
 
->
 
+  return (
 
+    <aside
 
-{/* HEADER */}
+      className="
+      hidden
+      xl:flex
+      h-full
+      flex-col
+      overflow-hidden
+      border-l
+      border-white/10
+      bg-navy/95
+      text-white
+      relative
+      "
 
-<div
+      style={{
 
-className="
-flex
-items-center
-gap-2
-border-b
-border-white/10
-px-3
-py-3
-"
+        width:
 
->
+          collapsed
 
-<Button
+            ? 56
 
-size="icon"
+            : width
 
-variant="ghost"
+      }}
 
-onClick={()=>
+    >
 
-setCollapsed(
 
-!collapsed
 
-)
 
-}
+      {/* HEADER */}
 
->
+      <div
 
-{
+        className="
+        flex
+        items-center
+        gap-2
+        border-b
+        border-white/10
+        px-3
+        py-3
+        "
 
-collapsed
+      >
 
-?
+        <Button
 
-<ChevronRight/>
+          size="icon"
 
-:
+          variant="ghost"
 
-<ChevronLeft/>
+          onClick={() =>
 
-}
+            setCollapsed(
 
-</Button>
+              !collapsed
 
+            )
 
+          }
 
-{
+        >
 
-!collapsed&&(
+          {
 
-<div className="flex-1">
+            collapsed
 
-<div className="flex justify-between">
+              ?
 
-<div className="font-semibold">
+              <ChevronRight />
 
-OneAtlas Chat
+              :
 
-</div>
+              <ChevronLeft />
 
+          }
 
+        </Button>
 
-<Badge
-className="
-bg-success/10
-text-success
-"
->
 
-● Connected
 
-</Badge>
+        {
 
-</div>
+          !collapsed && (
 
+            <div className="flex-1">
 
+              <div className="flex justify-between">
 
-<div
-className="
-mt-1
-text-xs
-text-white/45
-"
->
+                <div className="font-semibold">
 
-v{
+                  OneAtlas Chat
 
-schema.version
+                </div>
 
-}
 
-{" · "}
 
-{
+                <Badge
 
-schema.metadata.environment
+                  className="
+                  bg-success/10
+                  text-success
+                  "
 
-}
+                >
 
-</div>
+                  ● Connected
 
-</div>
+                </Badge>
 
-)
+              </div>
 
-}
 
-</div>
 
+              <div
 
+                className="
+                mt-1
+                text-xs
+                text-white/45
+                "
 
+              >
 
+                v{
 
-{
+                  schema.version
 
-!collapsed&&(
+                }
 
-<>
+                {" · "}
 
-{/* suggestions */}
+                {
 
-<div
-className="
-p-3
-flex
-flex-wrap
-gap-2
-"
->
+                  schema.metadata.environment
 
-{
+                }
 
-suggestions.map(
+              </div>
 
-s=>(
+            </div>
 
-<Button
+          )
 
-key={s}
+        }
 
-size="sm"
+      </div>
 
-variant="ghost"
 
-className="
-bg-white/[0.03]
-hover:bg-white/[0.08]
-text-xs
-"
 
->
 
-+
 
-{s}
 
-</Button>
 
-)
+      {
 
-)
+        !collapsed && (
 
-}
+          <>
 
-</div>
+            {/* suggestions */}
 
+            <div
 
+              className="
+              p-3
+              flex
+              flex-wrap
+              gap-2
+              "
 
+            >
 
+              {
 
+                suggestions.map(
 
-{/* messages */}
+                  s => (
 
-<div
-className="
-flex-1
-overflow-auto
-px-3
-space-y-4
-"
->
+                    <Button
 
-{
+                      key={s}
 
-messages.map(
+                      size="sm"
 
-m=>(
+                      variant="ghost"
 
-<div
-key={m.time}
->
+                      className="
+                      bg-white/[0.03]
+                      hover:bg-white/[0.08]
+                      text-xs
+                      "
 
-<div
+                    >
 
-className="
-ml-auto
-mb-2
-max-w-[85%]
-rounded-xl
-bg-runtime/10
-p-3
-"
+                      +
 
->
+                      {s}
 
-<div
-className="
-mb-1
-text-xs
-text-runtime
-"
->
+                    </Button>
 
-You
+                  )
 
-</div>
+                )
 
-{
+              }
 
-m.title
+            </div>
 
-}
 
-</div>
 
 
 
 
-<div
 
-className="
-max-w-[90%]
-rounded-xl
-bg-white/[0.03]
-p-3
-"
+            {/* messages */}
 
->
+            <div
 
-<div
-className="
-mb-1
-text-xs
-text-runtime
-"
->
+              className="
+              flex-1
+              overflow-auto
+              px-3
+              space-y-4
+              "
 
-Assistant
+            >
 
-</div>
+              {
 
+                messages.map(
 
+                  m => (
 
-<div>
+                    <div
 
-{
+                      key={
 
-m.detail
+                        m.time
 
-}
+                      }
 
-</div>
+                    >
 
+                      <div
 
+                        className="
+                        ml-auto
+                        mb-2
+                        max-w-[85%]
+                        rounded-xl
+                        bg-runtime/10
+                        p-3
+                        "
 
-<div
-className="
-mt-2
-text-[11px]
-text-white/40
-"
->
+                      >
 
-{
+                        <div
 
-m.time
+                          className="
+                          mb-1
+                          text-xs
+                          text-runtime
+                          "
 
-}
+                        >
 
-</div>
+                          You
 
-</div>
+                        </div>
 
-</div>
 
-)
 
-)
+                        {
 
-}
+                          m.title
 
-</div>
+                        }
 
+                      </div>
 
 
 
 
 
-{/* input */}
 
-<div
-className="
-border-t
-border-white/10
-p-3
-"
->
 
-<input
+                      <div
 
-readOnly
+                        className="
+                        max-w-[90%]
+                        rounded-xl
+                        bg-white/[0.03]
+                        p-3
+                        "
 
-placeholder="Ask OneAtlas Chat..."
+                      >
 
-className="
-w-full
-rounded-xl
-border
-border-white/10
-bg-white/[0.03]
-px-4
-py-3
-outline-none
-"
+                        <div
 
-/>
+                          className="
+                          mb-1
+                          text-xs
+                          text-runtime
+                          "
 
-</div>
+                        >
 
-</>
+                          Assistant
 
-)
+                        </div>
 
-}
 
 
+                        <div>
 
+                          {
 
+                            m.detail
 
+                          }
 
+                        </div>
 
-{/* resize handle */}
 
-{
 
-!collapsed&&(
+                        <div
 
-<div
+                          className="
+                          mt-2
+                          text-[11px]
+                          text-white/40
+                          "
 
-onPointerDown={()=>{
+                        >
 
-dragging.current=
-true;
+                          {
 
-document.body.style.cursor=
-"ew-resize";
+                            m.time
 
-}}
+                          }
 
-className="
-absolute
-left-0
-top-0
-h-full
-w-2
-cursor-ew-resize
-hover:bg-runtime/20
-transition
-"
+                        </div>
 
-/>
+                      </div>
 
-)
+                    </div>
 
-}
+                  )
 
-</aside>
+                )
 
-);
+              }
+
+            </div>
+
+
+
+
+
+
+
+            {/* INPUT */}
+
+            <div
+
+              className="
+              border-t
+              border-white/10
+              p-3
+              "
+
+            >
+
+              <input
+
+                readOnly
+
+                placeholder="Ask OneAtlas Chat..."
+
+                className="
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-white/[0.03]
+                px-4
+                py-3
+                outline-none
+                "
+
+              />
+
+            </div>
+
+          </>
+
+        )
+
+      }
+
+
+
+
+
+
+
+
+
+      {/* RESIZE HANDLE */}
+
+      {
+
+        !collapsed && (
+
+          <div
+
+            onPointerDown={
+
+              e => {
+
+                dragging.current =
+                  true;
+
+                startX.current =
+                  e.clientX;
+
+                startWidth.current =
+                  width;
+
+                document.body.style.cursor =
+                  "ew-resize";
+
+                document.body.style.userSelect =
+                  "none";
+
+              }
+
+            }
+
+            className="
+            absolute
+            left-0
+            top-0
+            h-full
+            w-2
+            cursor-ew-resize
+            hover:bg-runtime/20
+            transition
+            "
+
+          />
+
+        )
+
+      }
+
+    </aside>
+
+  );
 
 }

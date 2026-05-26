@@ -9,7 +9,6 @@ import {
 
 import { templates } from "@/config/templates";
 import { useBuilderStore } from "@/store/builder-store";
-import { cn } from "@/lib/utils";
 
 import { BuilderTopbar } from "./builder-topbar";
 import { CommandPalette } from "./command-palette";
@@ -18,476 +17,354 @@ import { LiveCanvas } from "./live-canvas";
 import { RuntimeMetadataPanel } from "./runtime-metadata-panel";
 import { AICopilotPanel } from "./ai-copilot-panel";
 
-interface BuilderShellProps{
-runtimeId?:string;
+interface BuilderShellProps {
+  runtimeId?: string;
 }
-
-
 
 function clamp(
-n:number,
-min:number,
-max:number
-){
-
-return Math.max(
-min,
-Math.min(
-max,
-n
-)
-);
-
+  n: number,
+  min: number,
+  max: number
+) {
+  return Math.max(
+    min,
+    Math.min(max, n)
+  );
 }
-
-
 
 export function BuilderShell({
+  runtimeId,
+}: BuilderShellProps) {
 
-runtimeId,
+  const params =
+    useSearchParams();
 
-}:BuilderShellProps){
+  const {
+    panels,
+    setSchemaById,
+    setSchemaByRuntimeId,
+  } =
+    useBuilderStore();
 
-const params=
-useSearchParams();
+  const [
+    leftWidth,
+    setLeftWidth,
+  ] =
+    useState(260);
 
+  const [
+    resizingLeft,
+    setResizingLeft,
+  ] =
+    useState(false);
 
+  const shellRef =
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
-const {
 
-panels,
 
-setSchemaById,
+  useEffect(() => {
 
-setSchemaByRuntimeId,
+    if (runtimeId) {
 
-}=
-useBuilderStore();
+      setSchemaByRuntimeId(
+        runtimeId
+      );
 
+      return;
+    }
 
+    const slug =
+      params.get(
+        "template"
+      );
 
-const [
+    const template =
+      templates.find(
+        item =>
+          item.slug === slug
+      );
 
-leftWidth,
+    if (template) {
 
-setLeftWidth,
+      setSchemaById(
+        template.schemaId
+      );
 
-]=
+    }
 
-useState(
-260
-);
+  }, [
 
+    params,
+    runtimeId,
+    setSchemaById,
+    setSchemaByRuntimeId,
 
+  ]);
 
-const leftDrag=
 
-useRef<
-HTMLDivElement|null
->(
-null
-);
 
+  useEffect(() => {
 
+    function move(
+      e: PointerEvent
+    ) {
 
-useEffect(
+      if (
+        !resizingLeft ||
+        !shellRef.current
+      )
+        return;
 
-()=>{
+      const rect =
+        shellRef.current.getBoundingClientRect();
 
-if(
-runtimeId
-){
+      setLeftWidth(
 
-setSchemaByRuntimeId(
-runtimeId
-);
+        clamp(
 
-return;
+          e.clientX -
+          rect.left,
 
-}
+          180,
 
+          360
 
+        )
 
-const slug=
+      );
 
-params.get(
-"template"
-);
+    }
 
 
 
-const template=
+    function stop() {
 
-templates.find(
+      setResizingLeft(
+        false
+      );
 
-item=>
+    }
 
-item.slug===slug
 
-);
 
+    window.addEventListener(
+      "pointermove",
+      move
+    );
 
+    window.addEventListener(
+      "pointerup",
+      stop
+    );
 
-if(
-template
-){
 
-setSchemaById(
-template.schemaId
-);
 
-}
+    return () => {
 
-},
+      window.removeEventListener(
+        "pointermove",
+        move
+      );
 
-[
+      window.removeEventListener(
+        "pointerup",
+        stop
+      );
 
-params,
+    };
 
-runtimeId,
+  }, [
 
-setSchemaById,
+    resizingLeft
 
-setSchemaByRuntimeId,
+  ]);
 
-]
 
-);
 
+  return (
 
+    <div
 
+      className="
+      flex
+      h-screen
+      flex-col
+      overflow-hidden
+      bg-background
+      text-foreground
+      "
 
+    >
 
-/* LEFT RESIZE */
+      <BuilderTopbar />
 
-useEffect(
+      <CommandPalette />
 
-()=>{
 
-function move(
-e:PointerEvent
-){
 
-if(
-!leftDrag.current
-)
-return;
+      <div
 
+        ref={shellRef}
 
+        className="
+        grid
+        flex-1
+        min-h-0
+        grid-cols-1
+        xl:grid-cols-[auto_minmax(0,1fr)_auto]
+        "
 
-const parent=
+      >
 
-leftDrag.current.parentElement;
 
-if(
-!parent
-)
-return;
 
+        {/* LEFT */}
 
+        {
 
-const rect=
+          panels.left && (
 
-parent.getBoundingClientRect();
+            <aside
 
+              style={{
 
+                width:
+                  `${leftWidth}px`,
 
-setLeftWidth(
+                minWidth:
+                  `${leftWidth}px`
 
-clamp(
+              }}
 
-e.clientX-
-rect.left,
+              className="
+              relative
+              hidden
+              xl:flex
+              flex-col
+              overflow-hidden
+              border-r
+              border-white/10
+              bg-navy/85
+              text-white
+              backdrop-blur-xl
+              flex-shrink-0
+              "
 
-180,
+            >
 
-360
+              <div
+                className="
+                flex-1
+                overflow-auto
+                p-2
+                "
+              >
 
-)
+                <RuntimeMetadataPanel />
 
-);
+                <div
+                  className="
+                  mt-3
+                  border-t
+                  border-white/10
+                  pt-3
+                  "
+                >
 
-}
+                  <div
+                    className="
+                    mb-2
+                    text-xs
+                    uppercase
+                    tracking-wide
+                    text-white/40
+                    "
+                  >
 
+                    Runtime tree
 
+                  </div>
 
-function stop(){
+                  <ComponentTree />
 
-leftDrag.current=
-null;
+                </div>
 
-}
+              </div>
 
 
 
-window.addEventListener(
-"pointermove",
-move
-);
+              {/* RESIZER */}
 
-window.addEventListener(
-"pointerup",
-stop
-);
+              <div
 
+                onPointerDown={() =>
 
+                  setResizingLeft(
+                    true
+                  )
 
-return()=>{
+                }
 
-window.removeEventListener(
-"pointermove",
-move
-);
+                className="
+                absolute
+                right-0
+                top-0
+                h-full
+                w-2
+                cursor-ew-resize
+                "
 
-window.removeEventListener(
-"pointerup",
-stop
-);
+              />
 
-};
+            </aside>
 
-},
+          )
 
-[]
+        }
 
-);
 
 
+        {/* CENTER */}
 
+        <div
 
+          className="
+          min-w-0
+          overflow-hidden
+          "
 
-return(
+        >
 
-<div
+          <LiveCanvas />
 
-className="
-flex
+        </div>
 
-h-screen
 
-flex-col
 
-overflow-hidden
+        {/* RIGHT */}
 
-bg-background
+        <div
 
-text-foreground
-"
+          className="
+          hidden
+          xl:flex
+          overflow-hidden
+          flex-shrink-0
+          "
 
->
+        >
 
-<BuilderTopbar/>
+          <AICopilotPanel />
 
-<CommandPalette/>
+        </div>
 
+      </div>
 
+    </div>
 
-
-
-<div
-
-className="
-grid
-
-flex-1
-
-min-h-0
-
-grid-cols-1
-
-xl:grid-cols-[auto_1fr_auto]
-"
-
->
-
-
-
-
-{/* LEFT */}
-
-{
-
-panels.left&&(
-
-<aside
-
-style={{
-
-width:
-
-leftWidth
-
-}}
-
-className="
-relative
-
-hidden
-
-xl:flex
-
-flex-col
-
-overflow-hidden
-
-border-r
-
-border-white/10
-
-bg-navy/85
-
-text-white
-
-backdrop-blur-xl
-
-transition-all
-"
-
->
-
-<div
-className="
-overflow-auto
-
-p-2
-
-flex-1
-"
->
-
-<RuntimeMetadataPanel/>
-
-
-
-
-
-<div
-className="
-mt-3
-
-border-t
-
-border-white/10
-
-pt-3
-"
->
-
-<div
-className="
-mb-2
-
-text-xs
-
-uppercase
-
-tracking-wide
-
-text-white/40
-"
->
-
-Runtime tree
-
-</div>
-
-
-
-<ComponentTree/>
-
-</div>
-
-</div>
-
-
-
-
-
-{/* resize */}
-
-<div
-
-ref={leftDrag}
-
-onPointerDown={
-
-e=>
-
-leftDrag.current=
-
-e.currentTarget
-
-}
-
-className="
-absolute
-
-right-0
-
-top-0
-
-h-full
-
-w-2
-
-cursor-ew-resize
-"
-
-/>
-
-</aside>
-
-)
-
-}
-
-
-
-
-
-{/* CENTER */}
-
-<div
-
-className="
-min-w-0
-
-overflow-hidden
-"
-
->
-
-<LiveCanvas/>
-
-</div>
-
-
-
-
-
-
-{/* RIGHT */}
-
-<div
-
-className="
-hidden
-
-xl:flex
-
-overflow-hidden
-"
-
->
-
-<AICopilotPanel/>
-
-</div>
-
-</div>
-
-</div>
-
-);
+  );
 
 }
