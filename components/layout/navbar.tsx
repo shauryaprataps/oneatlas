@@ -3,11 +3,10 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import {
-  Github,
   Menu,
-  Search,
   X,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -27,28 +26,20 @@ import { ThemeToggle } from "./theme-toggle";
 export function Navbar() {
 
 const [
-
 open,
-
 setOpen
-
 ]=
-
 useState(false);
-
-
 
 return(
 
 <header
-
 className="
 sticky
 top-4
 z-50
 px-4
 "
-
 >
 
 <nav
@@ -70,38 +61,42 @@ bg-white
 
 px-7
 
-py-3
-
-text-foreground
+py-4
 
 shadow-sm
 "
 
 >
 
-{/* gradient */}
+{/* bottom gradient */}
 
 <div
 
 className="
 absolute
+
 bottom-0
+
 left-0
+
 h-[2px]
+
 w-full
 
 bg-gradient-to-r
 
-from-runtime
+from-orange-500
 
-via-purple-400
+via-pink-400
 
-to-pink-400
+to-purple-400
 
-opacity-60
+opacity-50
 "
 
 />
+
+
 
 
 
@@ -109,13 +104,15 @@ opacity-60
 
 className="
 flex
+
 items-center
+
 justify-between
-gap-6
+
+gap-8
 "
 
 >
-
 
 
 {/* LEFT */}
@@ -124,13 +121,19 @@ gap-6
 
 className="
 flex
+
 items-center
-gap-8
+
+gap-10
+
+min-w-0
 "
 
 >
 
 <Logo/>
+
+
 
 
 
@@ -143,7 +146,7 @@ lg:flex
 
 items-center
 
-gap-1
+gap-2
 "
 
 >
@@ -177,9 +180,9 @@ text-muted-foreground
 
 transition
 
-hover:text-runtime
+hover:text-[#FF6600]
 
-hover:bg-runtime/5
+hover:bg-orange-50
 "
 
 >
@@ -196,9 +199,10 @@ item.label
 
 )
 
-
-
 }
+
+
+
 
 
 
@@ -220,6 +224,14 @@ group.label
 <DropdownMenu.Trigger
 
 className="
+group
+
+flex
+
+items-center
+
+gap-1
+
 rounded-lg
 
 px-3
@@ -230,9 +242,13 @@ text-sm
 
 text-muted-foreground
 
-hover:text-runtime
+transition
 
-hover:bg-runtime/5
+hover:text-[#FF6600]
+
+hover:bg-orange-50
+
+outline-none
 "
 
 >
@@ -243,7 +259,26 @@ group.label
 
 }
 
+
+
+<ChevronDown
+
+className="
+size-4
+
+transition-transform
+
+duration-200
+
+group-data-[state=open]:rotate-180
+"
+
+/>
+
 </DropdownMenu.Trigger>
+
+
+
 
 
 
@@ -284,7 +319,6 @@ group.items.map(
 item=>{
 
 const Icon=
-
 item.icon;
 
 
@@ -316,7 +350,7 @@ rounded-xl
 
 p-3
 
-hover:bg-runtime/5
+hover:bg-orange-50
 "
 
 >
@@ -332,7 +366,7 @@ mt-1
 
 size-4
 
-text-runtime
+text-[#FF6600]
 "
 
 />
@@ -351,8 +385,6 @@ className="
 text-sm
 
 font-medium
-
-text-foreground
 "
 
 >
@@ -418,6 +450,9 @@ item.description
 
 
 
+
+
+
 {/* RIGHT */}
 
 <div
@@ -430,54 +465,15 @@ lg:flex
 items-center
 
 gap-3
+
+flex-shrink-0
 "
 
 >
-
-
-<div
-
-className="
-flex
-
-items-center
-
-gap-2
-
-rounded-xl
-
-border
-
-border-border
-
-bg-muted
-
-px-3
-
-py-2
-
-text-xs
-
-text-muted-foreground
-"
-
->
-
-<Search
-
-className="
-size-3
-"
-
-/>
-
-⌘K
-
-</div>
-
-
 
 <ThemeToggle/>
+
+
 
 
 
@@ -492,9 +488,9 @@ variant="ghost"
 className="
 text-foreground
 
-hover:text-runtime
+hover:text-[#FF6600]
 
-hover:bg-runtime/5
+hover:bg-orange-50
 "
 
 >
@@ -515,46 +511,6 @@ Login
 
 
 
-<Button
-
-asChild
-
-variant="ghost"
-
-size="icon"
-
-className="
-text-muted-foreground
-
-hover:text-runtime
-
-hover:bg-runtime/5
-"
-
->
-
-<Link
-
-href="https://github.com"
-
-target="_blank"
-
->
-
-<Github
-
-className="
-size-4
-"
-
-/>
-
-</Link>
-
-</Button>
-
-
-
 
 
 
@@ -567,13 +523,15 @@ h-11
 
 rounded-xl
 
-bg-runtime
+bg-[#FF6600]
 
 px-5
 
 text-white
 
-hover:bg-runtime-hover
+hover:bg-[#E65C00]
+
+min-w-[180px]
 "
 
 >
@@ -582,15 +540,29 @@ hover:bg-runtime-hover
 
 href="/templates"
 
+className="
+flex
+
+items-center
+
+justify-center
+
+gap-2
+"
+
 >
 
+<span>
+
 Start Building
+
+</span>
+
+
 
 <ArrowRight
 
 className="
-ml-1
-
 size-4
 "
 
@@ -601,6 +573,9 @@ size-4
 </Button>
 
 </div>
+
+
+
 
 
 
@@ -650,6 +625,10 @@ open
 </div>
 
 </nav>
+
+
+
+
 
 
 
@@ -750,9 +729,9 @@ py-3
 
 text-foreground
 
-hover:bg-runtime/5
+hover:bg-orange-50
 
-hover:text-runtime
+hover:text-[#FF6600]
 "
 
 >
@@ -775,6 +754,7 @@ item.label
 
 
 
+
 <Button
 
 asChild
@@ -784,7 +764,9 @@ mt-4
 
 w-full
 
-bg-runtime
+bg-[#FF6600]
+
+hover:bg-[#E65C00]
 "
 
 >
