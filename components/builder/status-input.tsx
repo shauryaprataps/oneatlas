@@ -1,41 +1,272 @@
 "use client";
 
-import { SendHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/ui/status-badge";
-import { useBuilderStore } from "@/store/builder-store";
+import {
+  Sparkles,
+  Command,
+} from "lucide-react";
 
-const suggestions = ["Add field", "Rename component", "Reorder module", "Add metric"];
+import {
+  Button,
+} from "@/components/ui/button";
 
-export function StatusAndInput() {
-  const { schema, prompt, setPrompt, mockSubmitPrompt, applyInstruction } = useBuilderStore();
+import {
+  StatusBadge,
+} from "@/components/ui/status-badge";
 
-  return (
-    <footer className="border-t border-white/10 bg-navy/80 text-white shadow-[var(--shadow-glass)] backdrop-blur-xl transition-all duration-200">
-      <div className="flex flex-wrap items-center gap-3 border-b border-white/10 px-3 py-2 text-xs text-white/70">
-        <span>Last modified: {schema.lastModified}</span>
-        <span>Runtime: {schema.metadata.runtimeId}</span>
-        <span>Schema version: v{schema.version}</span>
-        <StatusBadge status={schema.connection} />
-      </div>
-      <div className="grid gap-2 px-3 py-2">
-        <div className="flex gap-2 overflow-x-auto">
-          {suggestions.map((suggestion) => (
-            <button className="rounded-md border border-white/10 px-2 py-1 text-xs text-white/70 transition hover:bg-white/10 hover:text-white" key={suggestion} onClick={() => applyInstruction(suggestion)} type="button">
-              {suggestion}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-2 overflow-x-auto text-xs text-white/52">
-          {schema.recentInstructions.slice(0, 3).map((event) => (
-            <span className="whitespace-nowrap rounded-md bg-white/6 px-2 py-1" key={`${event.time}-${event.detail}`}>{event.detail}</span>
-          ))}
-        </div>
-      </div>
-      <form className="flex gap-2 border-t border-white/10 p-3" onSubmit={(event) => { event.preventDefault(); mockSubmitPrompt(); }}>
-        <input className="h-11 flex-1 rounded-md border border-white/10 bg-white/8 px-3 text-sm text-white outline-none transition focus:ring-2 focus:ring-live" onChange={(event) => setPrompt(event.target.value)} placeholder="Ask OneAtlas to mutate the runtime schema..." value={prompt} />
-        <Button aria-label="Send instruction" size="icon" type="submit"><SendHorizontal className="size-4" /></Button>
-      </form>
-    </footer>
-  );
+import {
+  useBuilderStore,
+} from "@/store/builder-store";
+
+
+
+export function StatusAndInput(){
+
+const {
+
+schema,
+
+setCommandOpen,
+
+}=
+
+useBuilderStore();
+
+
+
+return(
+
+<div
+
+className="
+fixed
+
+bottom-5
+
+left-5
+
+z-40
+"
+
+>
+
+
+<Button
+
+variant="outline"
+
+className="
+
+flex
+
+items-center
+
+gap-3
+
+rounded-xl
+
+border
+
+border-white/10
+
+bg-navy/90
+
+px-4
+
+py-3
+
+text-white
+
+shadow-[var(--shadow-glass)]
+
+backdrop-blur-xl
+
+hover:bg-navy
+
+"
+
+onClick={()=>
+
+setCommandOpen(
+
+true
+
+)
+
+}
+
+>
+
+
+
+
+<div
+
+className="
+flex
+
+items-center
+
+gap-2
+"
+
+>
+
+<Sparkles
+
+className="
+size-4
+
+text-runtime
+"
+
+/>
+
+
+
+<div
+className="
+flex
+
+flex-col
+
+items-start
+"
+>
+
+<span
+className="
+text-xs
+
+font-medium
+"
+>
+
+Open OneAtlas Chat
+
+</span>
+
+
+
+<span
+className="
+text-[10px]
+
+text-white/45
+"
+>
+
+AI runtime assistant
+
+</span>
+
+</div>
+
+</div>
+
+
+
+
+
+<div
+className="
+mx-2
+
+h-6
+
+w-px
+
+bg-white/10
+"
+/>
+
+
+
+
+
+<div
+className="
+hidden
+
+sm:flex
+
+items-center
+
+gap-2
+"
+>
+
+<StatusBadge
+
+status={
+schema.connection
+}
+
+/>
+
+
+
+<span
+className="
+text-[10px]
+
+text-white/45
+"
+>
+
+v{
+
+schema.version
+
+}
+
+</span>
+
+</div>
+
+
+
+
+
+<div
+className="
+flex
+
+items-center
+
+gap-1
+
+rounded-md
+
+bg-white/5
+
+px-2
+
+py-1
+"
+>
+
+<Command
+className="
+size-3
+"/>
+
+
+<span
+className="
+text-[10px]
+"
+>
+
+K
+
+</span>
+
+</div>
+
+</Button>
+
+</div>
+
+);
+
 }

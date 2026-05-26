@@ -1,45 +1,555 @@
 "use client";
 
 import { useEffect } from "react";
-import { Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useBuilderStore } from "@/store/builder-store";
-import { cn } from "@/lib/utils";
 
-const actions = ["Generate template", "Preview", "Deploy", "Rollback", "Search schema", "Create mutation"];
+import {
+  Search,
+  Sparkles,
+  Rocket,
+  Database,
+  Workflow,
+} from "lucide-react";
 
-export function CommandPalette() {
-  const { commandOpen, setCommandOpen, applyInstruction } = useBuilderStore();
+import {
+  Button,
+} from "@/components/ui/button";
 
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setCommandOpen(!commandOpen);
-      }
-      if (event.key === "Escape") setCommandOpen(false);
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [commandOpen, setCommandOpen]);
+import {
+  useBuilderStore,
+} from "@/store/builder-store";
 
-  if (!commandOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-ink/50 p-4 backdrop-blur-sm" onClick={() => setCommandOpen(false)}>
-      <div className="mx-auto mt-20 max-w-xl rounded-lg border border-white/10 bg-navy/92 p-3 text-white shadow-[var(--shadow-glass)]" onClick={(event) => event.stopPropagation()}>
-        <div className="flex items-center gap-2 border-b border-white/10 px-2 pb-3">
-          <Search className="size-4 text-live" />
-          <span className="text-sm text-white/60">Command palette</span>
-        </div>
-        <div className="mt-3 grid gap-1">
-          {actions.map((action) => (
-            <Button className={cn("justify-start text-white hover:bg-white/10")} key={action} onClick={() => { applyInstruction(action); setCommandOpen(false); }} variant="ghost">
-              {action}
-            </Button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+
+const groups = [
+
+  {
+
+    title:
+      "AI Actions",
+
+    icon:
+      Sparkles,
+
+    actions:[
+
+      "Add field",
+
+      "Rename module",
+
+      "Generate workflow",
+
+      "Create chart",
+
+      "Add API",
+
+      "Deploy preview",
+
+    ]
+
+  },
+
+
+
+  {
+
+    title:
+      "Runtime",
+
+    icon:
+      Database,
+
+    actions:[
+
+      "Search schema",
+
+      "Preview",
+
+      "Rollback",
+
+    ]
+
+  },
+
+
+
+  {
+
+    title:
+      "Deploy",
+
+    icon:
+      Rocket,
+
+    actions:[
+
+      "Deploy",
+
+      "Generate template",
+
+    ]
+
+  },
+
+];
+
+
+
+export function CommandPalette(){
+
+const {
+
+commandOpen,
+
+setCommandOpen,
+
+applyInstruction
+
+}=
+
+useBuilderStore();
+
+
+
+useEffect(()=>{
+
+function onKeyDown(
+
+event:
+
+KeyboardEvent
+
+){
+
+if(
+
+(
+
+event.metaKey ||
+
+event.ctrlKey
+
+)
+
+&&
+
+event.key
+.toLowerCase()
+
+===
+
+"k"
+
+){
+
+event.preventDefault();
+
+setCommandOpen(
+
+!commandOpen
+
+);
+
+}
+
+
+
+if(
+
+event.key===
+
+"Escape"
+
+){
+
+setCommandOpen(
+
+false
+
+);
+
+}
+
+}
+
+
+
+window
+.addEventListener(
+
+"keydown",
+
+onKeyDown
+
+);
+
+
+
+return()=>{
+
+window
+.removeEventListener(
+
+"keydown",
+
+onKeyDown
+
+);
+
+};
+
+},[
+
+commandOpen,
+
+setCommandOpen
+
+]);
+
+
+
+if(
+
+!commandOpen
+
+)
+
+return null;
+
+
+
+return(
+
+<div
+
+className="
+fixed
+
+inset-0
+
+z-50
+
+bg-black/50
+
+backdrop-blur-sm
+
+p-4
+"
+
+onClick={()=>
+
+setCommandOpen(
+
+false
+
+)
+
+}
+
+>
+
+
+
+<div
+
+className="
+mx-auto
+
+mt-16
+
+max-w-2xl
+
+rounded-xl
+
+border
+
+border-white/10
+
+bg-navy/95
+
+p-3
+
+text-white
+
+shadow-[var(--shadow-glass)]
+"
+
+onClick={
+
+e=>
+
+e.stopPropagation()
+
+}
+
+>
+
+
+
+
+{/* HEADER */}
+
+<div
+
+className="
+flex
+
+items-center
+
+justify-between
+
+border-b
+
+border-white/10
+
+pb-3
+"
+
+>
+
+<div
+className="
+flex
+
+items-center
+
+gap-2
+"
+>
+
+<Search
+className="
+size-4
+
+text-runtime
+"
+/>
+
+
+
+<div>
+
+<div
+className="
+text-sm
+
+font-medium
+"
+>
+
+Command Palette
+
+</div>
+
+
+
+<div
+className="
+text-xs
+
+text-white/45
+"
+>
+
+⌘K /
+Ctrl+K
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div
+className="
+text-xs
+
+text-white/45
+"
+>
+
+ESC
+
+</div>
+
+</div>
+
+
+
+
+
+<div
+className="
+mt-3
+
+space-y-4
+"
+>
+
+{
+
+groups.map(
+
+group=>{
+
+const Icon=
+
+group.icon;
+
+
+
+return(
+
+<div
+
+key={
+group.title
+}
+
+>
+
+<div
+
+className="
+mb-2
+
+flex
+
+items-center
+
+gap-2
+
+text-[11px]
+
+uppercase
+
+tracking-wide
+
+text-white/40
+"
+
+>
+
+<Icon
+className="
+size-3
+"/>
+
+
+{
+
+group.title
+
+}
+
+</div>
+
+
+
+
+<div
+className="
+space-y-1
+"
+>
+
+{
+
+group.actions.map(
+
+action=>(
+
+<Button
+
+key={
+action
+}
+
+variant="ghost"
+
+className="
+w-full
+
+justify-between
+
+rounded-md
+
+text-left
+
+text-sm
+
+hover:bg-white/8
+"
+
+onClick={()=>{
+
+applyInstruction(
+
+action
+
+);
+
+setCommandOpen(
+
+false
+
+);
+
+}}
+
+>
+
+<span>
+
+{
+
+action
+
+}
+
+</span>
+
+
+
+<span
+className="
+text-[10px]
+
+text-white/35
+"
+>
+
+↵
+
+</span>
+
+</Button>
+
+)
+
+)
+
+}
+
+</div>
+
+</div>
+
+);
+
+}
+
+)
+
+}
+
+</div>
+
+</div>
+
+</div>
+
+);
+
 }

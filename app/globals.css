@@ -538,3 +538,441 @@ textarea {
     var(--advanced);
 
 }
+/* ==================================
+   OneAtlas Motion + Interaction
+================================== */
+
+:root {
+
+  --ease-runtime:
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+
+  --transition-fast:
+    180ms;
+
+  --transition-normal:
+    260ms;
+
+  --transition-slow:
+    420ms;
+
+}
+
+
+
+/* ======================
+   Panel transitions
+====================== */
+
+.panel-transition {
+
+  transition:
+
+    width
+    var(--transition-normal)
+    var(--ease-runtime),
+
+    opacity
+    var(--transition-normal)
+    var(--ease-runtime),
+
+    transform
+    var(--transition-normal)
+    var(--ease-runtime);
+
+}
+
+
+
+
+
+/* ======================
+   Runtime cards
+====================== */
+
+.runtime-card {
+
+  transition:
+
+    transform 220ms,
+
+    box-shadow 220ms,
+
+    border-color 220ms,
+
+    background 220ms;
+
+}
+
+
+
+.runtime-card:hover {
+
+  transform:
+
+    translateY(-2px);
+
+
+
+  box-shadow:
+
+    0 10px 35px
+
+    rgba(
+      99,
+      91,
+      255,
+      .12
+    );
+
+}
+
+
+
+
+
+/* ======================
+   Runtime buttons
+====================== */
+
+.runtime-button {
+
+  transition:
+
+    transform 180ms,
+
+    background 180ms,
+
+    border-color 180ms;
+
+}
+
+
+
+.runtime-button:hover {
+
+  transform:
+
+    translateY(-1px);
+
+}
+
+
+
+
+
+/* ======================
+   Glow effect
+====================== */
+
+.runtime-glow {
+
+  box-shadow:
+
+    0 0 0 1px
+
+    rgba(
+      99,
+      91,
+      255,
+      .10
+    ),
+
+    0 0 24px
+
+    rgba(
+      99,
+      91,
+      255,
+      .08
+    );
+
+}
+
+
+
+
+
+/* ======================
+   Chat messages
+====================== */
+
+.chat-message {
+
+  animation:
+
+    fadeSlide
+
+    220ms
+
+    ease-out;
+
+}
+
+
+
+@keyframes fadeSlide {
+
+  from {
+
+    opacity:
+      0;
+
+    transform:
+
+      translateY(
+        8px
+      );
+
+  }
+
+
+
+  to {
+
+    opacity:
+      1;
+
+    transform:
+
+      translateY(
+        0
+      );
+
+  }
+
+}
+
+
+
+
+
+/* ======================
+   Pulse
+====================== */
+
+.runtime-pulse {
+
+  animation:
+
+    runtimePulse
+
+    2s
+
+    infinite;
+
+}
+
+
+
+@keyframes runtimePulse {
+
+  0% {
+
+    opacity:
+      .6;
+
+  }
+
+
+
+  50% {
+
+    opacity:
+      1;
+
+  }
+
+
+
+  100% {
+
+    opacity:
+      .6;
+
+  }
+
+}
+
+
+
+
+
+/* ======================
+   Collapse animations
+====================== */
+
+.collapse-transition {
+
+  transition:
+
+    max-height
+
+    260ms
+
+    var(--ease-runtime),
+
+    opacity
+
+    220ms;
+
+}
+
+
+
+
+
+/* ======================
+   Runtime bars
+====================== */
+
+.runtime-bar {
+
+  transition:
+
+    transform 220ms,
+
+    background 220ms;
+
+}
+
+
+
+.runtime-bar:hover {
+
+  transform:
+
+    scaleY(
+      1.06
+    );
+
+}
+
+
+
+
+
+/* ======================
+   Smooth scrolling
+====================== */
+
+html {
+
+  scroll-behavior:
+    smooth;
+
+}
+
+
+
+
+
+/* ======================
+   Better scrollbar
+====================== */
+
+::-webkit-scrollbar {
+
+  width:
+    8px;
+
+  height:
+    8px;
+
+}
+
+
+
+::-webkit-scrollbar-track {
+
+  background:
+    transparent;
+
+}
+
+
+
+::-webkit-scrollbar-thumb {
+
+  background:
+
+    rgba(
+      255,
+      255,
+      255,
+      .08
+    );
+
+  border-radius:
+    999px;
+
+}
+
+
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+
+    rgba(
+      255,
+      255,
+      255,
+      .16
+    );
+
+}
+
+
+
+
+
+/* ======================
+   Focus states
+====================== */
+
+input:focus,
+button:focus,
+textarea:focus {
+
+  outline:
+    none;
+
+  box-shadow:
+
+    0 0 0 3px
+
+    rgba(
+      99,
+      91,
+      255,
+      .12
+    );
+
+}
+
+
+
+
+
+/* ======================
+   Selection
+====================== */
+
+::selection {
+
+  background:
+
+    rgba(
+      99,
+      91,
+      255,
+      .20
+    );
+
+}

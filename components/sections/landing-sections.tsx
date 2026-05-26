@@ -1,123 +1,765 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, Check, Database, GitBranch, Lock, Sparkles } from "lucide-react";
-import { faqs, howItWorks, roleCards } from "@/config/content";
-import { templates } from "@/config/templates";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { TemplateCard } from "@/components/templates/template-card";
-import { SectionHeading } from "./section-heading";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import {
+  ArrowRight,
+} from "lucide-react";
+
+import {
+  faqs,
+  howItWorks,
+  roleCards,
+} from "@/config/content";
+
+import {
+  templates,
+} from "@/config/templates";
+
+import {
+  Badge,
+} from "@/components/ui/badge";
+
+import {
+  Button,
+} from "@/components/ui/button";
+
+import {
+  Card,
+} from "@/components/ui/card";
+
+import {
+  TemplateCard,
+} from "@/components/templates/template-card";
+
+import {
+  SectionHeading,
+} from "./section-heading";
+
+
+
+
 
 export function Hero() {
-  return null;
+
+const router=
+useRouter();
+
+const [
+
+prompt,
+
+setPrompt,
+
+]=
+
+useState(
+""
+);
+
+
+
+const tryPrompts=[
+
+"CRM for sales deals",
+
+"employee onboarding checklist",
+
+"inventory warehouse tracker",
+
+"support ticket helpdesk",
+
+];
+
+
+
+function generate(){
+
+if(
+
+!prompt.trim()
+
+)
+
+return;
+
+
+
+router.push(
+
+`/templates?prompt=${encodeURIComponent(prompt)}`
+
+);
+
 }
 
-function RuntimePreview() {
-  return (
-    <div className="rounded-lg border border-border bg-card-strong p-3 shadow-[var(--shadow-soft)]">
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <span className="text-sm font-medium">Revenue Ops Runtime</span>
-        <Badge tone="runtime">schema v12</Badge>
-      </div>
-      <div className="mt-4 grid gap-3">
-        {["Pipeline Health", "Account Risk", "Next Actions"].map((label, index) => (
-          <div className="rounded-md border border-border bg-muted/60 p-4" key={label}>
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">{label}</span>
-              <span className="text-xs text-muted-foreground">{index + 3} fields</span>
-            </div>
-            <div className="mt-3 h-2 rounded-full bg-primary/15">
-              <div className="h-2 rounded-full bg-primary" style={{ width: `${72 - index * 14}%` }} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+
+
+return(
+
+<section
+
+className="
+relative
+overflow-hidden
+px-4
+pt-28
+pb-24
+"
+
+>
+
+
+
+{/* GRID */}
+
+<div
+
+className="
+absolute
+inset-0
+opacity-[0.04]
+
+[background-image:linear-gradient(to_right,#0A2540_1px,transparent_1px),linear-gradient(to_bottom,#0A2540_1px,transparent_1px)]
+
+[background-size:50px_50px]
+"
+
+/>
+
+
+
+{/* GLOW */}
+
+<div
+
+className="
+absolute
+
+left-1/2
+
+top-28
+
+h-[26rem]
+
+w-[26rem]
+
+-translate-x-1/2
+
+rounded-full
+
+bg-runtime/10
+
+blur-[120px]
+"
+
+/>
+
+
+
+
+
+
+<div
+
+className="
+relative
+
+mx-auto
+
+max-w-7xl
+
+text-center
+"
+
+>
+
+
+
+<Badge
+
+tone="runtime"
+
+className="
+mx-auto
+rounded-full
+px-5
+py-2
+"
+
+>
+
+Introducing OneAtlas 2.4 —
+
+Schema Builder Live
+
+</Badge>
+
+
+
+
+
+
+
+
+<h1
+
+className="
+mx-auto
+
+mt-10
+
+max-w-6xl
+
+text-6xl
+
+font-bold
+
+leading-[0.95]
+
+tracking-tight
+
+text-navy
+
+md:text-8xl
+"
+
+>
+
+Build operational apps
+
+at the speed of
+
+<span
+
+className="
+bg-gradient-to-r
+
+from-runtime
+
+via-purple-500
+
+to-pink-400
+
+bg-clip-text
+
+text-transparent
+"
+
+>
+
+thought.
+
+</span>
+
+</h1>
+
+
+
+
+
+
+
+
+<p
+
+className="
+mx-auto
+
+mt-8
+
+max-w-4xl
+
+text-xl
+
+leading-10
+
+text-muted-foreground
+"
+
+>
+
+Generate secure,
+
+database-backed CRMs,
+
+HR dashboards,
+
+and internal workflows
+
+from templates or natural language prompts.
+
+Ready to deploy in seconds.
+
+</p>
+
+
+
+
+
+
+
+
+
+
+{/* INPUT */}
+
+<div
+
+className="
+mx-auto
+
+mt-16
+
+max-w-5xl
+"
+
+>
+
+<div
+
+className="
+flex
+
+overflow-hidden
+
+rounded-[32px]
+
+border
+
+border-border
+
+bg-card-strong
+
+shadow-[0_15px_40px_rgba(10,37,64,.08)]
+"
+
+>
+
+
+
+<textarea
+
+value={prompt}
+
+onChange={
+
+e=>
+
+setPrompt(
+e.target.value
+)
+
 }
 
-export function HowItWorks() {
-  return (
-    <section className="px-4 py-16" id="how">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="How OneAtlas Works" title="Template-first, schema-driven, mutation-safe." description="The product model follows the trial document: reusable templates drive consistency, runtime schemas remain the source of truth, and updates are targeted instead of full rewrites." />
-        <div className="mt-8 grid gap-4 md:grid-cols-4">
-          {howItWorks.map((step, index) => (
-            <Card key={step}>
-              <span className="text-sm font-semibold text-primary">0{index + 1}</span>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">{step}</p>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+placeholder="Describe the app you want to build..."
+
+className="
+min-h-[110px]
+
+flex-1
+
+resize-none
+
+bg-transparent
+
+px-10
+
+py-10
+
+text-xl
+
+outline-none
+"
+
+/>
+
+
+
+
+
+
+<Button
+
+onClick={
+generate
 }
 
-export function ModelSection() {
-  const items = [
-    { icon: Sparkles, title: "Latest models", text: "Prompt-to-app workflows are designed around model-assisted schema evolution." },
-    { icon: GitBranch, title: "Incremental mutations", text: "Edits target fields, props, and order instead of regenerating whole apps." },
-    { icon: Database, title: "Runtime metadata", text: "Schemas, versions, templates, and previews are treated as product data." },
-  ];
-  return (
-    <section className="px-4 py-16">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Build With Latest Models" title="AI-native without giving up operational control." description="OneAtlas feels generated, editable, and governed: a runtime platform rather than a static output generator." />
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {items.map((item) => <Card key={item.title}><item.icon className="size-5 text-primary" /><h3 className="mt-4 font-semibold">{item.title}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{item.text}</p></Card>)}
-        </div>
-      </div>
-    </section>
-  );
+className="
+m-4
+
+min-w-[180px]
+
+rounded-[24px]
+
+bg-runtime
+
+text-lg
+
+hover:bg-runtime-hover
+"
+
+>
+
+Generate
+
+<ArrowRight
+className="
+ml-2
+
+size-5
+"/>
+
+</Button>
+
+</div>
+
+
+
+
+
+
+
+
+<div
+
+className="
+mt-8
+
+flex
+
+flex-wrap
+
+items-center
+
+justify-center
+
+gap-3
+"
+
+>
+
+<span
+
+className="
+font-semibold
+
+text-muted-foreground
+"
+
+>
+
+TRY:
+
+</span>
+
+
+
+{
+
+tryPrompts.map(
+
+item=>(
+
+<button
+
+key={item}
+
+onClick={()=>
+
+setPrompt(
+item
+)
+
 }
 
-export function TemplateShowcase() {
-  return (
-    <section className="px-4 py-16">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Templates Showcase" title="Operational systems, not marketing cards." description="Each template carries category, complexity, schema identity, and a meaningful app preview." />
-        <div className="mt-8 flex snap-x gap-4 overflow-x-auto pb-4">
-          {templates.map((template) => <TemplateCard className="min-w-[20rem] snap-start" key={template.id} template={template} compact />)}
-        </div>
-      </div>
-    </section>
-  );
+className="
+rounded-full
+
+border
+
+border-border
+
+bg-card
+
+px-5
+
+py-2
+
+text-sm
+
+text-muted-foreground
+
+transition
+
+hover:border-runtime
+
+hover:text-runtime
+"
+
+>
+
+"{item}"
+
+</button>
+
+)
+
+)
+
 }
 
-export function RolesAndTrust() {
-  return (
-    <section className="px-4 py-16" id="roles">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-        <div>
-          <SectionHeading eyebrow="Atlas for Roles" title="Built for the operators who own messy workflows." description="Revenue, people, support, inventory, admin, and analytics teams can start from reusable systems and keep shaping them." />
-          <div className="mt-6 flex flex-wrap gap-2">{roleCards.map((role) => <Badge key={role} tone="neutral">{role}</Badge>)}</div>
-        </div>
-        <Card>
-          <Lock className="size-5 text-primary" />
-          <h3 className="mt-4 text-xl font-semibold">Enterprise and security posture</h3>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">Governance, auditability, schema versioning, and rollback shape the product from the first interaction.</p>
-          <div className="mt-5 grid gap-3">{["Template approvals", "Versioned runtime schemas", "Controlled preview links"].map((item) => <p className="flex gap-2 text-sm" key={item}><Check className="size-4 text-success" />{item}</p>)}</div>
-        </Card>
-      </div>
-    </section>
-  );
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* TRUST */}
+
+<div
+
+className="
+mt-14
+
+flex
+
+flex-wrap
+
+justify-center
+
+gap-3
+"
+
+>
+
+{
+
+[
+
+"CRM",
+
+"Analytics",
+
+"Operations",
+
+"Inventory",
+
+"Support",
+
+"Internal Tools",
+
+]
+
+.map(
+
+item=>(
+
+<Badge
+
+key={item}
+
+tone="neutral"
+
+>
+
+{item}
+
+</Badge>
+
+)
+
+)
+
 }
 
-export function PricingFaq() {
-  return (
-    <section className="px-4 py-16">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-        <Card>
-          <Badge tone="pending">Pricing Preview</Badge>
-          <h2 className="mt-4 text-3xl font-semibold">Start with builders. Scale to governed teams.</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">Pricing is organized around runtime app creation, template usage, and enterprise controls.</p>
-          <Button asChild className="mt-6"><Link href="/pricing">View Pricing</Link></Button>
-        </Card>
-        <div className="grid gap-3">
-          {faqs.map((faq) => <Card key={faq.question}><h3 className="font-semibold">{faq.question}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{faq.answer}</p></Card>)}
-        </div>
-      </div>
-    </section>
-  );
+</div>
+
+</div>
+
+</section>
+
+);
+
+}
+
+
+
+
+
+
+
+
+
+export function HowItWorks(){
+
+return(
+
+<section
+id="how"
+className="px-4 py-16"
+>
+
+<div className="mx-auto max-w-7xl">
+
+<SectionHeading
+
+eyebrow="How OneAtlas Works"
+
+title="Template-first, schema-driven, mutation-safe."
+
+description="Reusable templates drive consistency while runtime schemas remain source of truth."
+
+/>
+
+
+
+<div className="mt-8 grid gap-4 md:grid-cols-4">
+
+{
+
+howItWorks.map(
+
+(step,index)=>(
+
+<Card key={step}>
+
+<span className="text-primary">
+
+0{index+1}
+
+</span>
+
+<p className="mt-4 text-sm text-muted-foreground">
+
+{step}
+
+</p>
+
+</Card>
+
+)
+
+)
+
+}
+
+</div>
+
+</div>
+
+</section>
+
+);
+
+}
+
+
+
+
+
+
+
+
+export function TemplateShowcase(){
+
+return(
+
+<section
+
+id="templates"
+
+className="
+px-4
+py-16
+"
+
+>
+
+<div className="mx-auto max-w-7xl">
+
+<SectionHeading
+
+eyebrow="Templates"
+
+title="Operational systems, not marketing cards."
+
+description="Templates with runtime metadata and previews."
+
+/>
+
+
+
+<div className="mt-8 flex gap-4 overflow-x-auto pb-4">
+
+{
+
+templates.map(
+
+template=>(
+
+<TemplateCard
+
+key={template.id}
+
+template={template}
+
+compact
+
+className="
+min-w-[20rem]
+"
+
+/>
+
+)
+
+)
+
+}
+
+</div>
+
+</div>
+
+</section>
+
+);
+
+}
+
+
+
+
+
+
+
+export function RolesAndTrust(){
+
+return null;
+
+}
+
+
+
+export function ModelSection(){
+
+return null;
+
+}
+
+
+
+export function PricingFaq(){
+
+return null;
+
 }

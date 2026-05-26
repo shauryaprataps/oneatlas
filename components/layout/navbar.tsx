@@ -1,7 +1,15 @@
 "use client";
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { Menu, X } from "lucide-react";
+
+import {
+  Github,
+  Menu,
+  Search,
+  X,
+  ArrowRight,
+} from "lucide-react";
+
 import Link from "next/link";
 import { useState } from "react";
 
@@ -17,461 +25,635 @@ import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
 
-  return (
-    <header className="sticky top-0 z-50 px-5 py-4">
+const [open,setOpen] =
+useState(false);
 
-      <nav
-        aria-label="Primary navigation"
-        className="
-        glass-strong
-        bg-[#0A2540]/95
+return(
 
-        text-white
+<header
+className="
+sticky
+top-4
+z-50
+px-4
+"
+>
 
-        mx-auto
-        flex
-        max-w-7xl
-        items-center
-        justify-between
+<nav
+className="
+relative
+mx-auto
+max-w-7xl
 
-        rounded-2xl
+rounded-2xl
 
-        px-6
-        py-4
+border
+border-white/10
 
-        shadow-[0_12px_40px_rgba(10,37,64,.18)]
-      "
-      >
+bg-navy/95
 
-        {/* Logo */}
-        <Logo />
+px-7
+py-3
 
+text-white
 
-        {/* Desktop Navigation */}
+backdrop-blur-3xl
 
-        <div className="hidden items-center gap-2 lg:flex">
+shadow-[0_20px_50px_rgba(10,37,64,.18)]
+"
+>
 
-          {primaryNavigation.map((item) => (
+{/* gradient bottom */}
 
-            <Link
-              key={item.label}
-              href={item.href}
-              className="
-              rounded-lg
-              px-4
-              py-2
+<div
+className="
+absolute
+bottom-0
+left-0
+h-[2px]
+w-full
+bg-gradient-to-r
+from-runtime
+via-purple-400
+to-pink-400
+opacity-70
+"
+/>
 
-              text-sm
-              text-white/90
 
-              transition
 
-              hover:bg-white/10
-              hover:text-white
-            "
-            >
-              {item.label}
-            </Link>
+<div
+className="
+flex
+items-center
+justify-between
+gap-6
+"
+>
 
-          ))}
 
+{/* LEFT */}
 
+<div
+className="
+flex
+items-center
+gap-8
+"
+>
 
-          {dropdownGroups.map((group) => (
+<Logo/>
 
-            <DropdownMenu.Root key={group.label}>
+<div
+className="
+hidden
+lg:flex
+items-center
+gap-1
+"
+>
 
-              <DropdownMenu.Trigger
-                className="
-                rounded-lg
-                px-4
-                py-2
+{
 
-                text-sm
-                text-white/90
+primaryNavigation.map(
 
-                hover:bg-white/10
-                hover:text-white
-              "
-              >
-                {group.label}
-              </DropdownMenu.Trigger>
+item=>(
 
+<Link
 
+key={item.label}
 
-              <DropdownMenu.Content
-                align="center"
-                className="
-                mt-4
+href={item.href}
 
-                grid
-                w-[34rem]
-                grid-cols-2
-                gap-2
+className="
+rounded-lg
 
-                rounded-2xl
+px-3
+py-2
 
-                border
-                border-white/10
+text-sm
 
-                bg-[#0A2540]/96
+text-white/75
 
-                p-4
+transition
 
-                text-white
+hover:bg-white/[0.06]
 
-                shadow-2xl
+hover:text-white
+"
 
-                backdrop-blur-3xl
-              "
-              >
+>
 
-                {group.items.map((item) => {
+{item.label}
 
-                  const Icon =
-                    item.icon;
+</Link>
 
-                  return (
+)
 
-                    <DropdownMenu.Item
-                      asChild
-                      key={item.label}
-                    >
+)
 
-                      <Link
-                        href={item.href}
-                        className="
-                        flex
-                        gap-3
+}
 
-                        rounded-xl
 
-                        p-3
 
-                        hover:bg-white/10
-                      "
-                      >
+{
 
-                        {Icon && (
+dropdownGroups.map(
 
-                          <Icon
-                            className="
-                            mt-1
-                            size-4
-                            text-runtime
-                          "
-                          />
+group=>(
 
-                        )}
+<DropdownMenu.Root
+key={group.label}
+>
 
+<DropdownMenu.Trigger
 
+className="
+rounded-lg
 
-                        <div>
+px-3
+py-2
 
-                          <span
-                            className="
-                            block
-                            text-sm
-                            font-medium
-                          "
-                          >
+text-sm
 
-                            {item.label}
+text-white/75
 
-                          </span>
+hover:bg-white/[0.06]
+"
 
+>
 
+{group.label}
 
-                          {item.description && (
+</DropdownMenu.Trigger>
 
-                            <span
-                              className="
-                              mt-1
 
-                              block
 
-                              text-xs
+<DropdownMenu.Content
 
-                              text-white/60
-                            "
-                            >
+className="
+mt-4
 
-                              {
-                                item.description
-                              }
+grid
 
-                            </span>
+w-[34rem]
 
-                          )}
+grid-cols-2
 
-                        </div>
+gap-2
 
-                      </Link>
+rounded-2xl
 
-                    </DropdownMenu.Item>
+border
 
-                  );
-                })}
+border-white/10
 
-              </DropdownMenu.Content>
+bg-navy/95
 
-            </DropdownMenu.Root>
+p-4
 
-          ))}
+backdrop-blur-3xl
+"
 
-        </div>
+>
 
+{
 
+group.items.map(
 
+item=>{
 
-        {/* Right Side */}
+const Icon =
+item.icon;
 
-        <div
-          className="
-          hidden
-          items-center
-          gap-3
+return(
 
-          lg:flex
-        "
-        >
+<DropdownMenu.Item
+asChild
+key={item.label}
+>
 
-          <ThemeToggle />
+<Link
 
+href={item.href}
 
+className="
+flex
+gap-3
 
-          <Button
-            asChild
-            variant="ghost"
+rounded-xl
 
-            className="
-            text-white/90
+p-3
 
-            hover:bg-white/10
+hover:bg-white/[0.05]
+"
 
-            hover:text-white
-          "
-          >
+>
 
-            <Link href="/docs">
+{
 
-              Login
+Icon &&
 
-            </Link>
+<Icon
 
-          </Button>
+className="
+mt-1
+size-4
+text-runtime
+"
 
+/>
 
+}
 
-          <Button
-            asChild
 
-            className="
-            bg-[#635BFF]
 
-            text-white
+<div>
 
-            hover:bg-[#7A73FF]
+<div
+className="
+text-sm
+font-medium
+"
+>
 
-            shadow-[0_8px_24px_rgba(99,91,255,.25)]
-          "
-          >
+{item.label}
 
-            <Link href="/templates">
+</div>
 
-              Start Building
 
-            </Link>
 
-          </Button>
+<div
+className="
+text-xs
+text-white/50
+"
+>
 
-        </div>
+{item.description}
 
+</div>
 
+</div>
 
+</Link>
 
-        {/* Mobile */}
+</DropdownMenu.Item>
 
-        <Button
-          size="icon"
+);
 
-          variant="ghost"
+}
 
-          className="
-          text-white
+)
 
-          lg:hidden
-        "
+}
 
-          onClick={() =>
-            setOpen(
-              !open
-            )
-          }
-        >
+</DropdownMenu.Content>
 
-          {open
+</DropdownMenu.Root>
 
-            ? <X />
+)
 
-            : <Menu />
+)
 
-          }
+}
 
-        </Button>
+</div>
 
-      </nav>
+</div>
 
 
 
 
-      {/* Mobile menu */}
 
-      <div
 
-        className={cn(
+{/* RIGHT */}
 
-          `
-          glass-strong
+<div
+className="
+hidden
 
-          bg-[#0A2540]/95
+lg:flex
 
-          mx-auto
+items-center
 
-          mt-3
+gap-3
+"
+>
 
-          hidden
+<div
+className="
+flex
 
-          max-w-7xl
+items-center
 
-          rounded-2xl
+gap-2
 
-          p-4
-          `,
+rounded-xl
 
-          open &&
-            "block"
+border
 
-        )}
+border-white/10
 
-      >
+bg-white/[0.03]
 
-        {[
+px-3
 
-          ...primaryNavigation,
+py-2
 
-          ...dropdownGroups.flatMap(
-            g =>
-              g.items
-          ),
+text-xs
 
-        ].map(
+text-white/50
+"
+>
 
-          (
-            item
-          ) => (
+<Search
+className="
+size-3
+"
+/>
 
-            <Link
+⌘K
 
-              key={
-                item.label
-              }
+</div>
 
-              href={
-                item.href
-              }
 
-              onClick={() =>
-                setOpen(
-                  false
-                )
-              }
 
-              className="
-              block
+<ThemeToggle/>
 
-              rounded-lg
 
-              px-4
 
-              py-3
+<Button
 
-              text-white/90
+asChild
 
-              hover:bg-white/10
-            "
-            >
+variant="ghost"
 
-              {item.label}
+className="
+h-10
 
-            </Link>
+px-4
 
-          )
+text-white/80
 
-        )}
+hover:bg-white/[0.05]
+"
 
+>
 
+<Link href="/docs">
 
-        <div
-          className="
-          mt-4
+Login
 
-          grid
+</Link>
 
-          grid-cols-2
+</Button>
 
-          gap-2
-        "
-        >
 
-          <Button
-            asChild
 
-            variant="ghost"
+<Button
 
-            className="
-            text-white/90
+asChild
 
-            hover:bg-white/10
-          "
-          >
+variant="ghost"
 
-            <Link href="/docs">
+size="icon"
 
-              Login
+className="
+h-10
+w-10
 
-            </Link>
+text-white/80
 
-          </Button>
+hover:bg-white/[0.05]
+"
 
+>
 
+<Link
+href="https://github.com"
+target="_blank"
+>
 
-          <Button
-            asChild
+<Github
+className="
+size-4
+"
+/>
 
-            className="
-            bg-[#635BFF]
+</Link>
 
-            hover:bg-[#7A73FF]
+</Button>
 
-            text-white
-          "
-          >
 
-            <Link href="/templates">
 
-              Start Building
+<Button
 
-            </Link>
+asChild
 
-          </Button>
+className="
+h-11
 
-        </div>
+rounded-xl
 
-      </div>
+bg-runtime
 
-    </header>
-  );
+px-5
+
+text-white
+
+hover:bg-runtime-hover
+
+shadow-[0_8px_24px_rgba(99,91,255,.18)]
+"
+
+>
+
+<Link href="/templates">
+
+Start Building
+
+<ArrowRight
+className="
+ml-1
+size-4
+"/>
+
+</Link>
+
+</Button>
+
+</div>
+
+
+
+
+
+{/* MOBILE */}
+
+<Button
+
+size="icon"
+
+variant="ghost"
+
+className="
+lg:hidden
+"
+
+onClick={()=>
+
+setOpen(
+!open
+)
+
+}
+
+>
+
+{
+
+open
+
+?
+
+<X/>
+
+:
+
+<Menu/>
+
+}
+
+</Button>
+
+</div>
+
+</nav>
+
+
+
+
+
+{/* mobile menu */}
+
+<div
+
+className={
+
+cn(
+
+`
+mx-auto
+
+mt-3
+
+hidden
+
+max-w-7xl
+
+rounded-2xl
+
+border
+
+border-white/10
+
+bg-navy/95
+
+p-4
+`,
+
+open&&"block"
+
+)
+
+}
+
+>
+
+{
+
+[
+
+...primaryNavigation,
+
+...dropdownGroups.flatMap(
+
+g=>g.items
+
+)
+
+]
+
+.map(
+
+item=>(
+
+<Link
+
+key={item.label}
+
+href={item.href}
+
+onClick={()=>
+
+setOpen(false)
+
+}
+
+className="
+block
+
+rounded-lg
+
+px-4
+
+py-3
+
+hover:bg-white/[0.05]
+"
+
+>
+
+{item.label}
+
+</Link>
+
+)
+
+)
+
+}
+
+
+
+<Button
+
+asChild
+
+className="
+mt-4
+
+w-full
+
+bg-runtime
+"
+
+>
+
+<Link href="/templates">
+
+Start Building
+
+</Link>
+
+</Button>
+
+</div>
+
+</header>
+
+);
+
 }
