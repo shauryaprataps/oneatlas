@@ -1,51 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import {
-  BarChart3,
-  Blocks,
-  BriefcaseBusiness,
-  CircleDot,
-  Database,
-  Eye,
-  GitBranch,
-  Headphones,
-  PackageSearch,
-  ShieldCheck,
-  UserRoundCog,
-  UsersRound,
-  WandSparkles,
-  ArrowRight,
+BarChart3,
+BriefcaseBusiness,
+CircleDot,
+Headphones,
+PackageSearch,
+UserRoundCog,
+UsersRound,
+Blocks,
+Eye,
+WandSparkles
 } from "lucide-react";
 
-import type { TemplateDefinition } from "@/types";
+import {
+Badge
+} from "@/components/ui/badge";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+Button
+} from "@/components/ui/button";
 
-import { cn } from "@/lib/utils";
+import {
+Card
+} from "@/components/ui/card";
 
-interface TemplateCardProps{
-template:TemplateDefinition;
-compact?:boolean;
-className?:string;
-onPreview?:(template:TemplateDefinition)=>void;
-}
-
-
-
-const complexityTone={
-Simple:"success",
-Moderate:"pending",
-Advanced:"advanced",
-} as const;
+import type {
+TemplateDefinition
+} from "@/types";
 
 
 
-const templateIcons={
+const icons={
 
 "crm-workspace":
 BriefcaseBusiness,
@@ -72,19 +60,23 @@ Headphones,
 export function TemplateCard({
 
 template,
-
-compact=false,
-
-className,
-
 onPreview,
 
-}:TemplateCardProps){
+}:{
+
+template:
+TemplateDefinition;
+
+onPreview?:(
+t:TemplateDefinition
+)=>void;
+
+}){
 
 const Icon=
 
-templateIcons[
-template.slug as keyof typeof templateIcons
+icons[
+template.slug as keyof typeof icons
 ]
 
 ??
@@ -95,62 +87,35 @@ Blocks;
 
 return(
 
-<Card
+<Card className="
+h-[520px]
 
-className={
+flex
 
-cn(
+flex-col
 
-`
-group
+rounded-3xl
 
 overflow-hidden
+
+bg-white
 
 border
 
-border-white/10
+border-border
 
-bg-card
+hover:shadow-xl
 
-transition-all
-
-duration-200
-
-hover:-translate-y-1
-
-hover:border-runtime/20
-
-hover:shadow-lg
-
-hover:shadow-runtime/10
-`,
-
-className
-
-)
-
-}
-
->
+transition
+">
 
 
 
 
+{/* HEADER */}
 
-{/* PREVIEW */}
-
-<div
-
-className="
-relative
-
-h-36
-
-overflow-hidden
-
-border-b
-
-border-white/10
+<div className="
+h-[230px]
 
 bg-gradient-to-br
 
@@ -160,45 +125,29 @@ via-ink
 
 to-runtime/20
 
-p-4
+p-8
 
 text-white
-"
+">
 
->
-
-<div
-className="
+<div className="
 flex
 
 justify-between
-"
->
+">
 
-<div
-className="
+<div className="
 flex
 
-items-center
-
 gap-2
-"
->
+">
 
 <CircleDot
 className="
 size-3
-
 text-success
-"/>
-
-
-
-<span
-className="
-text-xs
 "
->
+/>
 
 {
 
@@ -206,15 +155,10 @@ template.runtime.status
 
 }
 
-</span>
-
 </div>
 
 
-
-<Badge
-tone="runtime"
->
+<Badge>
 
 v{
 
@@ -229,35 +173,33 @@ template.runtime.schemaVersion
 
 
 
-
-<div
-className="
-mt-6
+<div className="
+mt-12
 
 flex
 
-items-center
+gap-4
 
-gap-2
-"
->
+items-center
+">
 
 <Icon
 className="
-size-5
+size-8
 
 text-runtime
-"/>
-
-
-
-<h3
-className="
-text-lg
-
-font-semibold
 "
->
+/>
+
+
+
+<h2 className="
+text-5xl
+
+font-bold
+
+leading-tight
+">
 
 {
 
@@ -265,27 +207,9 @@ template.name
 
 }
 
-</h3>
+</h2>
 
 </div>
-
-
-
-<div
-className="
-mt-2
-
-text-xs
-
-text-white/50
-"
->
-
-{
-
-template.schemaId
-
-}
 
 </div>
 
@@ -293,98 +217,24 @@ template.schemaId
 
 
 
-{/* fake preview */}
 
-<div
-className="
-mt-5
-
-flex
-
-gap-1
-"
->
-
-{
-
-[50,70,40,85,60].map(
-
-(
-
-h,
-
-i
-
-)=>(
-
-<div
-
-key={i}
-
-className="
+<div className="
 flex-1
 
-rounded-t
-
-bg-runtime/70
-"
-
-style={{
-
-height:
-
-`${h}px`
-
-}}
-
->
-
-</div>
-
-)
-
-)
-
-}
-
-</div>
-
-</div>
-
-
-
-
-
-
-<div
-className="
 flex
 
 flex-col
 
-p-4
+p-8
+">
 
-h-full
-"
->
-
-
-
-
-
-<div
-className="
+<div className="
 flex
 
-items-start
-
 justify-between
-"
->
+">
 
-<Badge
-tone="runtime"
->
+<Badge>
 
 {
 
@@ -395,18 +245,7 @@ template.category
 </Badge>
 
 
-
-<Badge
-
-tone={
-
-complexityTone[
-template.complexity
-]
-
-}
-
->
+<Badge>
 
 {
 
@@ -421,18 +260,15 @@ template.complexity
 
 
 
+<p className="
+mt-6
 
-<p
-className="
-mt-3
-
-text-sm
-
-leading-6
+leading-8
 
 text-muted-foreground
-"
->
+
+line-clamp-4
+">
 
 {
 
@@ -447,193 +283,13 @@ template.description
 
 
 
-<div
-className="
-mt-4
-
-grid
-
-grid-cols-3
-
-gap-2
-"
->
-
-<Metric
-
-icon={
-<Blocks className="size-3"/>
-}
-
-value={
-
-String(
-
-template.runtime.components
-
-)
-
-}
-
-label="Components"
-
-/>
-
-
-
-<Metric
-
-icon={
-<Database className="size-3"/>
-}
-
-value={
-
-String(
-
-template.runtime.fields
-
-)
-
-}
-
-label="Fields"
-
-/>
-
-
-
-<Metric
-
-icon={
-<GitBranch className="size-3"/>
-}
-
-value={
-
-template.metrics[0]?.value
-
-??
-
-"0"
-
-}
-
-label="Objects"
-
-/>
-
-</div>
-
-
-
-
-
-
-<div
-className="
-mt-4
-
-rounded-md
-
-border
-
-border-white/10
-
-bg-white/[0.02]
-
-p-3
-"
->
-
-<div
-className="
-flex
-
-justify-between
-
-text-xs
-"
->
-
-<span
-className="
-text-white/45
-"
->
-
-Collection
-
-</span>
-
-
-
-<span>
-
-{
-
-template.collection
-
-}
-
-</span>
-
-</div>
-
-
-
-<div
-className="
-mt-2
-
-flex
-
-justify-between
-
-text-xs
-"
->
-
-<span
-className="
-text-white/45
-"
->
-
-Mutation safe
-
-</span>
-
-
-
-<ShieldCheck
-className="
-size-3
-
-text-success
-"
-/>
-
-</div>
-
-</div>
-
-
-
-
-
-
-<div
-className="
+<div className="
 mt-auto
 
-pt-5
-
 flex
 
-gap-2
-"
->
+gap-4
+">
 
 <Button
 
@@ -642,9 +298,7 @@ asChild
 className="
 flex-1
 
-bg-runtime
-
-hover:bg-runtime/90
+h-12
 "
 
 >
@@ -652,28 +306,19 @@ hover:bg-runtime/90
 <Link
 
 href={`/builder/${
-
 template.runtime.runtimeId
-
 }`}
 
 >
 
 <WandSparkles
 className="
+mr-2
 size-4
-"/>
+"
+/>
 
-
-
-Open Builder
-
-
-
-<ArrowRight
-className="
-size-4
-"/>
+Use Template
 
 </Link>
 
@@ -685,42 +330,32 @@ size-4
 
 <Button
 
-asChild
-
 variant="outline"
+
+asChild
 
 className="
 flex-1
+
+h-12
 "
 
 >
 
 <Link
 
-href={`/preview/${
-
+href={`/builder/${
 template.runtime.runtimeId
-
 }`}
-
-onClick={()=>
-
-onPreview?.(
-
-template
-
-)
-
-}
 
 >
 
 <Eye
 className="
+mr-2
 size-4
-"/>
-
-
+"
+/>
 
 Preview
 
@@ -733,96 +368,6 @@ Preview
 </div>
 
 </Card>
-
-);
-
-}
-
-
-
-function Metric({
-
-icon,
-
-label,
-
-value,
-
-}:{
-
-icon:ReactNode;
-
-label:string;
-
-value:string;
-
-}){
-
-return(
-
-<div
-
-className="
-rounded-md
-
-border
-
-border-white/10
-
-bg-white/[0.02]
-
-p-2
-"
-
->
-
-<div
-className="
-flex
-
-items-center
-
-gap-1
-
-text-sm
-
-font-medium
-"
->
-
-{
-
-icon
-
-}
-
-{
-
-value
-
-}
-
-</div>
-
-
-
-<div
-className="
-text-[10px]
-
-text-white/45
-"
->
-
-{
-
-label
-
-}
-
-</div>
-
-</div>
 
 );
 

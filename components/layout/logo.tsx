@@ -1,12 +1,65 @@
+"use client";
+
 import Link from "next/link";
 
 export function Logo() {
-  return (
-    <Link aria-label="OneAtlas home" className="flex items-center gap-2 font-semibold tracking-normal" href="/">
-      <span className="grid size-8 place-items-center rounded-md bg-white text-navy ring-1 ring-white/15">
-        OA
-      </span>
-      <span className="text-base text-white">OneAtlas</span>
-    </Link>
-  );
+
+return(
+
+<Link
+
+href="/"
+
+className="
+flex
+items-center
+gap-3
+transition
+hover:opacity-80
+"
+
+>
+
+<div
+
+className="
+flex
+h-10
+w-10
+items-center
+justify-center
+rounded-lg
+border
+border-border
+bg-white
+font-bold
+text-navy
+"
+
+>
+
+OA
+
+</div>
+
+
+
+<div
+
+className="
+font-semibold
+text-lg
+text-foreground
+"
+
+>
+
+OneAtlas
+
+</div>
+
+</Link>
+
+);
+
 }

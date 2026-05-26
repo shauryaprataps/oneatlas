@@ -26,92 +26,126 @@ import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
 
-const [open,setOpen] =
+const [
+
+open,
+
+setOpen
+
+]=
+
 useState(false);
+
+
 
 return(
 
 <header
+
 className="
 sticky
 top-4
 z-50
 px-4
 "
+
 >
 
 <nav
+
 className="
 relative
+
 mx-auto
+
 max-w-7xl
 
 rounded-2xl
 
 border
-border-white/10
 
-bg-navy/95
+border-border
+
+bg-white
 
 px-7
+
 py-3
 
-text-white
+text-foreground
 
-backdrop-blur-3xl
-
-shadow-[0_20px_50px_rgba(10,37,64,.18)]
+shadow-sm
 "
+
 >
 
-{/* gradient bottom */}
+{/* gradient */}
 
 <div
+
 className="
 absolute
 bottom-0
 left-0
 h-[2px]
 w-full
+
 bg-gradient-to-r
+
 from-runtime
+
 via-purple-400
+
 to-pink-400
-opacity-70
+
+opacity-60
 "
+
 />
 
 
 
 <div
+
 className="
 flex
 items-center
 justify-between
 gap-6
 "
+
 >
+
 
 
 {/* LEFT */}
 
 <div
+
 className="
 flex
 items-center
 gap-8
 "
+
 >
 
 <Logo/>
 
+
+
 <div
+
 className="
 hidden
+
 lg:flex
+
 items-center
+
 gap-1
 "
+
 >
 
 {
@@ -122,30 +156,39 @@ item=>(
 
 <Link
 
-key={item.label}
+key={
+item.label
+}
 
-href={item.href}
+href={
+item.href
+}
 
 className="
 rounded-lg
 
 px-3
+
 py-2
 
 text-sm
 
-text-white/75
+text-muted-foreground
 
 transition
 
-hover:bg-white/[0.06]
+hover:text-runtime
 
-hover:text-white
+hover:bg-runtime/5
 "
 
 >
 
-{item.label}
+{
+
+item.label
+
+}
 
 </Link>
 
@@ -153,7 +196,10 @@ hover:text-white
 
 )
 
+
+
 }
+
 
 
 
@@ -164,7 +210,11 @@ dropdownGroups.map(
 group=>(
 
 <DropdownMenu.Root
-key={group.label}
+
+key={
+group.label
+}
+
 >
 
 <DropdownMenu.Trigger
@@ -173,20 +223,29 @@ className="
 rounded-lg
 
 px-3
+
 py-2
 
 text-sm
 
-text-white/75
+text-muted-foreground
 
-hover:bg-white/[0.06]
+hover:text-runtime
+
+hover:bg-runtime/5
 "
 
 >
 
-{group.label}
+{
+
+group.label
+
+}
 
 </DropdownMenu.Trigger>
+
+
 
 
 
@@ -207,13 +266,13 @@ rounded-2xl
 
 border
 
-border-white/10
+border-border
 
-bg-navy/95
+bg-white
 
 p-4
 
-backdrop-blur-3xl
+shadow-xl
 "
 
 >
@@ -224,46 +283,61 @@ group.items.map(
 
 item=>{
 
-const Icon =
+const Icon=
+
 item.icon;
+
+
 
 return(
 
 <DropdownMenu.Item
+
 asChild
-key={item.label}
+
+key={
+item.label
+}
+
 >
 
 <Link
 
-href={item.href}
+href={
+item.href
+}
 
 className="
 flex
+
 gap-3
 
 rounded-xl
 
 p-3
 
-hover:bg-white/[0.05]
+hover:bg-runtime/5
 "
 
 >
 
 {
 
-Icon &&
+Icon&&(
 
 <Icon
 
 className="
 mt-1
+
 size-4
+
 text-runtime
 "
 
 />
+
+)
 
 }
 
@@ -272,26 +346,42 @@ text-runtime
 <div>
 
 <div
+
 className="
 text-sm
+
 font-medium
+
+text-foreground
 "
+
 >
 
-{item.label}
+{
+
+item.label
+
+}
 
 </div>
 
 
 
 <div
+
 className="
 text-xs
-text-white/50
+
+text-muted-foreground
 "
+
 >
 
-{item.description}
+{
+
+item.description
+
+}
 
 </div>
 
@@ -331,6 +421,7 @@ text-white/50
 {/* RIGHT */}
 
 <div
+
 className="
 hidden
 
@@ -340,9 +431,12 @@ items-center
 
 gap-3
 "
+
 >
 
+
 <div
+
 className="
 flex
 
@@ -354,9 +448,9 @@ rounded-xl
 
 border
 
-border-white/10
+border-border
 
-bg-white/[0.03]
+bg-muted
 
 px-3
 
@@ -364,14 +458,17 @@ py-2
 
 text-xs
 
-text-white/50
+text-muted-foreground
 "
+
 >
 
 <Search
+
 className="
 size-3
 "
+
 />
 
 ⌘K
@@ -384,6 +481,8 @@ size-3
 
 
 
+
+
 <Button
 
 asChild
@@ -391,24 +490,28 @@ asChild
 variant="ghost"
 
 className="
-h-10
+text-foreground
 
-px-4
+hover:text-runtime
 
-text-white/80
-
-hover:bg-white/[0.05]
+hover:bg-runtime/5
 "
 
 >
 
-<Link href="/docs">
+<Link
+
+href="/docs"
+
+>
 
 Login
 
 </Link>
 
 </Button>
+
+
 
 
 
@@ -421,30 +524,37 @@ variant="ghost"
 size="icon"
 
 className="
-h-10
-w-10
+text-muted-foreground
 
-text-white/80
+hover:text-runtime
 
-hover:bg-white/[0.05]
+hover:bg-runtime/5
 "
 
 >
 
 <Link
+
 href="https://github.com"
+
 target="_blank"
+
 >
 
 <Github
+
 className="
 size-4
 "
+
 />
 
 </Link>
 
 </Button>
+
+
+
 
 
 
@@ -464,27 +574,34 @@ px-5
 text-white
 
 hover:bg-runtime-hover
-
-shadow-[0_8px_24px_rgba(99,91,255,.18)]
 "
 
 >
 
-<Link href="/templates">
+<Link
+
+href="/templates"
+
+>
 
 Start Building
 
 <ArrowRight
+
 className="
 ml-1
+
 size-4
-"/>
+"
+
+/>
 
 </Link>
 
 </Button>
 
 </div>
+
 
 
 
@@ -505,7 +622,9 @@ lg:hidden
 onClick={()=>
 
 setOpen(
+
 !open
+
 )
 
 }
@@ -536,7 +655,9 @@ open
 
 
 
-{/* mobile menu */}
+
+
+{/* MOBILE MENU */}
 
 <div
 
@@ -545,6 +666,7 @@ className={
 cn(
 
 `
+
 mx-auto
 
 mt-3
@@ -557,14 +679,19 @@ rounded-2xl
 
 border
 
-border-white/10
+border-border
 
-bg-navy/95
+bg-white
 
 p-4
+
+shadow-sm
+
 `,
 
-open&&"block"
+open&&
+
+"block"
 
 )
 
@@ -580,7 +707,9 @@ open&&"block"
 
 ...dropdownGroups.flatMap(
 
-g=>g.items
+g=>
+
+g.items
 
 )
 
@@ -592,13 +721,21 @@ item=>(
 
 <Link
 
-key={item.label}
+key={
+item.label
+}
 
-href={item.href}
+href={
+item.href
+}
 
 onClick={()=>
 
-setOpen(false)
+setOpen(
+
+false
+
+)
 
 }
 
@@ -611,12 +748,20 @@ px-4
 
 py-3
 
-hover:bg-white/[0.05]
+text-foreground
+
+hover:bg-runtime/5
+
+hover:text-runtime
 "
 
 >
 
-{item.label}
+{
+
+item.label
+
+}
 
 </Link>
 
@@ -625,6 +770,8 @@ hover:bg-white/[0.05]
 )
 
 }
+
+
 
 
 
@@ -642,7 +789,11 @@ bg-runtime
 
 >
 
-<Link href="/templates">
+<Link
+
+href="/templates"
+
+>
 
 Start Building
 

@@ -88,11 +88,20 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json({
-    appId: createdApp.id,
-    generatedName: createdApp.name,
-    templateUsed: tpl.name,
-    schema: runtimeSchema,
-    version: 1,
-  });
+  runtimeId:
+    createdRuntimeSchema.id,
+
+  appId:
+    createdApp.id,
+
+  generatedName:
+    createdApp.name,
+
+  schema:
+    runtimeSchema,
+
+  version:
+    1,
+});
 }
 
